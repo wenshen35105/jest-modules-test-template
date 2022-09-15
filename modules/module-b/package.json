@@ -1,0 +1,19 @@
+{
+  "name": "@jest-modules-test-template/module-b",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build .",
+    "test": "jest",
+    "test:bvt": "TEST_SCOPES='bvt' jest"
+  },
+  "dependencies": {
+    "jest": "^29.0.3",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "jest-modules-test-template",
+  "author": "wenshen35105@hotmail.com",
+  "private": true,
+  "scripts": {
+    "build": "lerna run build --stream",
+    "test": "lerna run test --stream"
+  },
+  "workspaces": [
+    "modules/**"
+  ],
+  "devDependencies": {
+    "eslint": "^8.23.1",
+    "eslint-plugin-jest": "^27.0.4",
+    "lerna": "^5.5.1",
+    "typescript": "^4.8.3"
+  },
+  "engines": {
+    "node": "16.x",
+    "yarn": "^1.22.0"
+  }
+}
