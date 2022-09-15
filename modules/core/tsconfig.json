@@ -5,9 +5,6 @@
   ],
   "compilerOptions": {
     "outDir": "../../dist/core",
-    "rootDir": "."
-  },
-  "files": [
-    "./src/config.json"
-  ]
+    "rootDir": ".",
+  }
 }

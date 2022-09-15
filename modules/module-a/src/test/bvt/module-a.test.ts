@@ -1,8 +1,11 @@
-import { config } from "@jest-modules-test-template/core/src/index";
+import { getPlatformConfig } from "@jest-modules-test-template/core/src/index";
+
+// import type from another module
+import type { PlatformConfig } from "@jest-modules-test-template/core/src/types/core.config";
 
 describe("Test module-a", () => {
   test("config", () => {
-    const pltformConfig = config.getPlatformConfig();
-    expect(pltformConfig.host).toEqual("google.ca");
+    const platformConfig: PlatformConfig = getPlatformConfig();
+    expect(platformConfig.host).toEqual("google.ca");
   });
 });

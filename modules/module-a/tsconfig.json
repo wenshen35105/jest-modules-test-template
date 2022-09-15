@@ -8,6 +8,8 @@
     "rootDir": "."
   },
   "references": [
-    { "path": "../core" }
+    {
+      "path": "../core"
+    }
   ]
 }
