@@ -3,7 +3,8 @@
   "author": "wenshen35105@hotmail.com",
   "private": true,
   "scripts": {
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "validate": "lerna run build --stream"
   },
   "workspaces": [
     "modules/**"

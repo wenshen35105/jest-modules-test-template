@@ -46,6 +46,8 @@ Jest tests are expected to be placed by the following paths `modules/<module_nam
   - Test a specific module
 - `TEST_FILTERS='bvt' yarn lerna run test --scope @jest-modules-test-template/module-a`
   - Test a specific bundle from a module
+- `yarn validate`
+  - Although there's no need to run builds manually for tests in module, tsc is stll helpful for helping to catch syntax errors of the tests
 
 ### Docker
 
