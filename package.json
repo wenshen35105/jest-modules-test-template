@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "lerna run test --stream",
-    "validate": "lerna run build --stream"
+    "validate": "lerna run build --stream",
+    "lint:fix": "eslint . --fix"
   },
   "workspaces": [
     "modules/**"

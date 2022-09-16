@@ -1,4 +1,4 @@
-import { getPlatformConfig } from "@jest-modules-test-template/core/src/index";
+import { getPlatformConfig } from "@jest-modules-test-template/core/src/config";
 
 // import type from another module
 import type { PlatformConfig } from "@jest-modules-test-template/core/src/types/core.config";
