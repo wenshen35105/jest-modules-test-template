@@ -2,15 +2,9 @@
   "name": "@jest-modules-test-template/core",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "build": "tsc --build .",
-    "postbuild": "cpy config.yml ../../dist/core"
-  },
+  "scripts": {},
   "dependencies": {
     "axios": "^0.27.2",
     "yaml": "^2.1.1"
-  },
-  "devDependencies": {
-    "cpy-cli": "^4.2.0"
   }
 }

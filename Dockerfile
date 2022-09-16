@@ -4,41 +4,37 @@ FROM node:16 as base
 ENV WORKDIR=/usr/home
 WORKDIR ${WORKDIR}
 
-# ----------------------------------- build ---------------------------------- #
-FROM base as package
+RUN mkdir -p modules
 
-COPY . .
+COPY ./package.json ./
+COPY ./tsconfig.json ./
+COPY ./yarn.lock ./
+COPY ./lerna.json ./
 
-RUN yarn
+# --------------------------------- module-a --------------------------------- #
 
-# ------------------------------ module-a-build ------------------------------ #
-FROM package as module-a-build
-
-RUN yarn lerna run build --scope @jest-modules-test-template/module-a
-
-# ----------------------------- module-a-package ----------------------------- #
 FROM base as module-a
 
-COPY --from=module-a-build ${WORKDIR}/node_modules ./node_modules
-COPY --from=module-a-build ${WORKDIR}/dist/core ./dist/core
-COPY --from=module-a-build ${WORKDIR}/dist/module-a ./dist/module-a
-COPY ./modules/module-a/package.json ./
-COPY ./modules/module-a/jest.config.ts ./
+# copy referenced module
+COPY ./modules/core ./modules/core
+
+# copy the module itself
+COPY ./modules/module-a ./modules/module-a
+
+RUN yarn install --prod
 
 CMD [ "yarn", "test" ]
 
-# ------------------------------ module-b-build ------------------------------ #
-FROM package as module-b-build
+# --------------------------------- module-b --------------------------------- #
 
-RUN yarn lerna run build --scope @jest-modules-test-template/module-b
-
-# ----------------------------- module-b-package ----------------------------- #
 FROM base as module-b
 
-COPY --from=module-b-build ${WORKDIR}/node_modules ./node_modules
-COPY --from=module-b-build ${WORKDIR}/dist/core ./dist/core
-COPY --from=module-b-build ${WORKDIR}/dist/module-b ./dist/module-b
-COPY ./modules/module-b/package.json ./
-COPY ./modules/module-b/jest.config.ts ./
+# copy referenced module
+COPY ./modules/core ./modules/core
+
+# copy the module itself
+COPY ./modules/module-b ./modules/module-b
+
+RUN yarn install --prod
 
 CMD [ "yarn", "test" ]
