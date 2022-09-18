@@ -14,7 +14,7 @@ module.exports = {
     overrides: [
         {
             files: [
-                "./modules/*/src/**/*.ts"
+                "./modules/**/*.ts"
             ],
             extends: [
                 "plugin:@typescript-eslint/recommended",
@@ -28,13 +28,17 @@ module.exports = {
                 tsconfigRootDir: __dirname,
                 project: [
                     "./tsconfig.json",
-                    "./modules/*/tsconfig.json",
+                    "./modules/lib/*/tsconfig.json",
+                    "./modules/test/*/tsconfig.json"
                 ]
             },
+            rules: {
+                "@typescript-eslint/no-unnecessary-type-assertion": "off"
+            }
         },
         {
             files: [
-                "modules/*/src/test/**/*.ts"
+                "modules/lib/*/src/**/*.ts"
             ],
             env: {
                 "jest/globals": true
@@ -52,7 +56,7 @@ module.exports = {
             }
         },
         {
-            files: "./**/*.ts",
+            files: "**/*.ts",
             rules: {
                 quotes: [
                     "error",
@@ -63,6 +67,15 @@ module.exports = {
                     "always"
                 ]
             }
+        },
+        {
+            files: "**/*.d.ts",
+            rules: {
+                "no-var": "off"
+            }
         }
-    ]
+    ],
+    parserOptions: {
+        sourceType: 'module',
+    },
 }

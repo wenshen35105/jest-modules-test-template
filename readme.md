@@ -1,64 +1,96 @@
-# Template repo for modules testing based on Jest, Typescript
+# Template repo for e2e modules/components testing based on Jest, Typescript
 
-### Features
+## Features
 
-- Each test module can be shipped individually
-- Package only the test module you will need
-- Modules are allowed to use utilities from a different shared-module
-- Trigger sub-set of tests within each module can be easy
-- Thanks for Jest preset and ts-jest, Typescript files used for the tests do not need to be compiled
+- Each test module can be shipped individually. You only need to package the test modules and their lib modules
+- Test Modules are allowed to use shared utilities from a lib module
+- Test assets for each test module are independent
+- No compilation is needed, but validation by using "tsc" is still supported
+- Test environments can be easily customized and inherited
 
-### Folder structures
+## Folder structures
 
-There're two test modules from the tree diagram below, where module-a and module-b are both referencing the core module. 
+There're two test modules from the tree diagram below, where module-a and module-b are both referencing the core, jest lib modules.
 
-If one only needs to ship/run tests from module-a, only the module-a and the core modules will be packaged.
+If one only needs to ship tests from module-a, only the module-a and its lib modules will be packaged.
 
-Jest tests are expected to be placed by the following paths `modules/<module_name>/src/test/<bundle>`
-
-```
+```plain
 /
-├─ modules/
-│  ├─ core/
-│  │  ├─ tsconfig.json
-│  │  ├─ src/
-│  ├─ module-a/
-│  │  ├─ src/
-│  │  │  ├─ test/
-│  │  │  │  ├─ bvt/
-│  │  │  │  ├─ <other test bundles...>/
-│  │  ├─ tsconfig.json
-│  ├─ module-b/
-│  │  ├─ src/
-│  │  │  ├─ test/
-│  │  │  │  ├─ bvt/
-│  │  │  │  ├─ <other test bundles...>/
-│  │  ├─ tsconfig.json
-├─ tsconfig.json
-├─ dist/
+├─ modules
+│  ├─ lib
+│  │  ├─ core
+│  │  │  ├─ config.yml
+│  │  │  ├─ package.json
+│  │  │  ├─ src
+│  │  │  │  └─ ...<utils>
+│  │  │  └─ tsconfig.json
+│  │  ├─ jest
+│  │  │  ├─ package.json
+│  │  │  ├─ src
+│  │  │  │  └─ ...<utils>
+│  │  │  └─ tsconfig.json
+│  │  ├─ module-a
+│  │  │  ├─ package.json
+│  │  │  ├─ src
+│  │  │  │  └─ ...<utils>
+│  │  │  └─ tsconfig.json
+│  │  ├─ module-b
+│  │  │  ├─ package.json
+│  │  │  ├─ src
+│  │  │  │  └─ ...<utils>
+│  │  │  └─ tsconfig.json
+│  │  └─ types
+│  └─ test
+│     ├─ module-a
+│     │  ├─ assets
+│     │  ├─ jest.config.ts
+│     │  ├─ package.json
+│     │  ├─ src
+│     │  │  └─ ...<tests>
+│     │  └─ tsconfig.json
+│     ├─ module-b
+│     │  ├─ asset
+│     │  ├─ jest.config.ts
+│     │  ├─ package.json
+│     │  ├─ src
+│     │  │  └─ ...<tests>
+│     │  └─ tsconfig.json
+│     └─ types
+└─ tsconfig.json
 ```
 
-### Scripts
+## Best practices
+
+- Utility code (e.x. Selenium page objects, API calls...) should be separated from the testing code and put into a lib module
+- Test assets should always be stored in test modules but not in the lib modules
+- Always run the "yarn validate" script before committing changes
+- Each module has a "package.json". Try to keep the dependencies that are used across different modules in the root "package.json"
+- Shared types should be placed into either "modules/lib/types" or "modules/test/types"
+- Enable ESLint (plugin) for your IDE/editor
+- If a module contains UI and API tests, split the tests into two separate folders
+- If a test needs to perform a pre-test behaviour, try to extract the common steps as a "jest environment"
+
+## Scripts
 
 - `yarn test`
   - Test all the modules from the project in parallel
-- `yarn lerna run test --scope @jest-modules-test-template/module-a`
+- `yarn workspace @test/module-a test`
   - Test a specific module
-- `TEST_FILTERS='bvt' yarn lerna run test --scope @jest-modules-test-template/module-a`
-  - Test a specific bundle from a module
+- `yarn workspace @test/module-a test ./modules/module-a/src/test/bvt`
+  - Run all tests of a module's folder
+- `yarn workspace @test/module-a test ./modules/module-a/src/test/bvt/module-a.test.ts`
+  - Test a specific file from a module
 - `yarn validate`
-  - Although there's no need to run builds manually for tests in module, tsc is stll helpful for helping to catch syntax errors of the tests
+  - Although there's no need to run builds manually for tests in module, tsc is still helpful for helping to catch syntax errors of the tests
 
-### Docker
+## Docker
 
-There's only one [Dockerfile](Dockerfile) from the project, but the single Dockerfile can use for shipping multiple modules by using the docker target feature. 
+There's only one [Dockerfile](Dockerfile) from the project, but the single Dockerfile can use for shipping multiple modules by using the docker target feature.
 
-```
+```bash
 docker build -t module-a-docker --target module-a .
 ```
 
 The command above will build out an image that includes tests from module-a only.
 
 To run the image simply just run `docker run module-a-docker`
-
-Or if you need to apply filters `docker run --env TEST_FILTERS='bvt' module-a-docker`

@@ -1,23 +1,38 @@
 {
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "module": "CommonJS",
-    "esModuleInterop": true,
-    "target": "ES6",
-    "moduleResolution": "Node",
-    "sourceMap": true,
-    "allowJs": true,
-    "resolveJsonModule": true,
+    // project reference
     "composite": true,
     "declaration": true,
+    "resolveJsonModule": true,
     "declarationMap": true,
+    // additional
+    "allowJs": true,
+    // debug
+    "sourceMap": true,
+    // additional check
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    // alias/paths
+    "baseUrl": ".",
     "paths": {
-      "@jest-modules-test-template": [
-        "modules"
+      "@lib/*": [
+        "modules/lib/*"
+      ],
+      "@test/*": [
+        "modules/test/*"
       ]
     }
   },
-  "lib": [
-    "es2020"
-  ]
+  "exclude": [
+    "node_modules"
+  ],
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
 }

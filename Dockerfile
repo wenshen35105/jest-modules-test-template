@@ -4,22 +4,28 @@ FROM node:16 as base
 ENV WORKDIR=/usr/home
 WORKDIR ${WORKDIR}
 
-RUN mkdir -p modules
+RUN mkdir -p modules/lib && \
+  mkdir -p modules/test
 
 COPY ./package.json ./
 COPY ./tsconfig.json ./
 COPY ./yarn.lock ./
 COPY ./lerna.json ./
 
+COPY ./modules/lib/types ./modules/lib/types
+COPY ./modules/test/types ./modules/test/types
+
 # --------------------------------- module-a --------------------------------- #
 
 FROM base as module-a
 
-# copy referenced module
-COPY ./modules/core ./modules/core
+# copy lib module
+COPY ./modules/lib/core ./modules/lib/core
+COPY ./modules/lib/jest ./modules/lib/jest
+COPY ./modules/lib/module-a ./modules/lib/module-a
 
-# copy the module itself
-COPY ./modules/module-a ./modules/module-a
+# copy test module
+COPY ./modules/test/module-a ./modules/test/module-a
 
 RUN yarn install --prod
 
@@ -29,11 +35,13 @@ CMD [ "yarn", "test" ]
 
 FROM base as module-b
 
-# copy referenced module
-COPY ./modules/core ./modules/core
+# copy lib module
+COPY ./modules/lib/core ./modules/lib/core
+COPY ./modules/lib/jest ./modules/lib/jest
+COPY ./modules/lib/module-b ./modules/lib/module-b
 
-# copy the module itself
-COPY ./modules/module-b ./modules/module-b
+# copy test module
+COPY ./modules/test/module-b ./modules/test/module-b
 
 RUN yarn install --prod
 

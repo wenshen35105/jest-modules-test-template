@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.json",
+  "include": [
+    "src/**/*"
+  ],
+  "compilerOptions": {
+    "outDir": "../../../dist/lib/module-b",
+    "rootDir": "."
+  },
+  "references": [
+    {
+      "path": "../core"
+    }
+  ]
+}

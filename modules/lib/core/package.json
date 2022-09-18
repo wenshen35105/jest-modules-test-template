@@ -1,0 +1,12 @@
+{
+  "name": "@lib/core",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "validate": "tsc --build ."
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "yaml": "^2.1.1"
+  }
+}

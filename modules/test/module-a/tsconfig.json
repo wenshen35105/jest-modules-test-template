@@ -1,0 +1,23 @@
+{
+  "extends": "../../../tsconfig.json",
+  "include": [
+    "src/**/*",
+    "jest.config.ts",
+    "../types/global.d.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "../../../dist/test/module-a",
+    "rootDir": "."
+  },
+  "references": [
+    {
+      "path": "../../lib/core"
+    },
+    {
+      "path": "../../lib/jest"
+    },
+    {
+      "path": "../../lib/module-a"
+    }
+  ]
+}
