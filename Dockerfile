@@ -27,7 +27,10 @@ COPY ./modules/lib/module-a ./modules/lib/module-a
 # copy test module
 COPY ./modules/test/module-a ./modules/test/module-a
 
-RUN yarn install --prod
+RUN yarn && \
+  yarn validate && \
+  rm -rf dist && \
+  yarn install --prod
 
 CMD [ "yarn", "test" ]
 
@@ -43,6 +46,9 @@ COPY ./modules/lib/module-b ./modules/lib/module-b
 # copy test module
 COPY ./modules/test/module-b ./modules/test/module-b
 
-RUN yarn install --prod
+RUN yarn && \
+  yarn validate && \
+  rm -rf dist && \
+  yarn install --prod
 
 CMD [ "yarn", "test" ]
