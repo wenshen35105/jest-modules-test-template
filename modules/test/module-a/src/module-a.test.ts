@@ -16,15 +16,12 @@ beforeAll(() => {
 });
 
 describe("Test module-a", () => {
-  
-
   test("config", async () => {
-
     const platformConfig: Config.PlatformConfig = getPlatformConfig();
     expect(platformConfig.host).toEqual("google.ca");
 
     await webDriver.get("https://youtube.ca");
 
-    await (new Promise((resolve) => setTimeout(resolve, 5000)));
+    await new Promise((resolve) => setTimeout(resolve, 5000));
   }, 5000000);
 });

@@ -19,20 +19,12 @@
     // alias/paths
     "baseUrl": ".",
     "paths": {
-      "@lib/*": [
-        "modules/lib/*"
-      ],
-      "@test/*": [
-        "modules/test/*"
-      ]
+      "@lib/*": ["modules/lib/*"],
+      "@test/*": ["modules/test/*"]
     }
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "ts-node": {
-    "require": [
-      "tsconfig-paths/register"
-    ]
+    "require": ["tsconfig-paths/register"]
   }
 }

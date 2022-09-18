@@ -5,7 +5,7 @@ export const getPlatformRrequestClient = () => {
   const platformConfig = config.getPlatformConfig();
 
   const axiosClient = axios.create({
-    baseURL: `${platformConfig.schema}://${platformConfig.host}:${platformConfig.port}`
+    baseURL: `${platformConfig.schema}://${platformConfig.host}:${platformConfig.port}`,
   });
 
   return axiosClient;

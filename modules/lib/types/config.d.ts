@@ -1,4 +1,3 @@
-
 namespace Config {
   interface PlatformConfig {
     host: string;
@@ -11,15 +10,11 @@ namespace Config {
   }
 
   interface Config {
-    platform: PlatformConfig
-    selenium: SeleniumConfig
+    platform: PlatformConfig;
+    selenium: SeleniumConfig;
   }
 
-  export {
-    PlatformConfig,
-    SeleniumConfig,
-    Config
-  };
+  export { PlatformConfig, SeleniumConfig, Config };
 }
 
 export default Config;

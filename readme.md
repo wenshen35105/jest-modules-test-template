@@ -5,14 +5,22 @@
 - Each test module can be shipped individually. You only need to package the test modules and their lib modules
 - Test Modules are allowed to use shared utilities from a lib module
 - Test assets for each test module are independent
-- No compilation is needed, but validation by using "tsc" is still supported
+- No compilation is required, but validation by using "tsc" is still supported
 - Test environments can be easily customized and inherited
+- Easily run/debug tests
+
+## To Start
+
+1. Open [.vscode/project.code-workspace](./.vscode/project.code-workspace) by VSC
+2. Run `yarn` from project root
+3. From VSC, install the "Workspace recommendations" plguins
+   1. The recommendation section might not show until you typed in `@recommended` from the search bar
 
 ## Folder structures
 
 There're two test modules from the tree diagram below, where module-a and module-b are both referencing the core, jest lib modules.
 
-If one only needs to ship tests from module-a, only the module-a and its lib modules will be packaged.
+If one only needs to ship tests from module-a, only the module-a and the lib modules that the test module depends on will be packaged.
 
 ```plain
 /
@@ -72,6 +80,8 @@ If one only needs to ship tests from module-a, only the module-a and its lib mod
 
 ## Scripts
 
+### Project root
+
 - `yarn test`
   - Test all the modules from the project in parallel
 - `yarn workspace @test/module-a test`
@@ -82,6 +92,10 @@ If one only needs to ship tests from module-a, only the module-a and its lib mod
   - Test a specific file from a module
 - `yarn validate`
   - Although there's no need to run builds manually for tests in module, tsc is still helpful for helping to catch syntax errors of the tests
+- `yarn lint:prettier:check`
+  - Prettier check
+- `yarn lint:prettier:fix`
+  - Prettier write
 
 ## Docker
 

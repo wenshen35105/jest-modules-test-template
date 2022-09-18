@@ -1,0 +1,56 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": "../"
+    },
+    {
+      "name": "@lib/core",
+      "path": "../modules/lib/core"
+    },
+    {
+      "name": "@lib/jest",
+      "path": "../modules/lib/jest"
+    },
+    {
+      "name": "@lib/module-a",
+      "path": "../modules/lib/module-a"
+    },
+    {
+      "name": "@lib/module-b",
+      "path": "../modules/lib/module-b"
+    },
+    {
+      "name": "@test/module-a",
+      "path": "../modules/test/module-a"
+    },
+    {
+      "name": "@test/module-b",
+      "path": "../modules/test/module-b"
+    },
+  ],
+  "settings": {
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "jest.autoRun": "off",
+    "jest.disabledWorkspaceFolders": [
+      "root",
+      "@lib/core",
+      "@lib/jest",
+      "@lib/module-a",
+      "@lib/module-b",
+    ],
+    "jest.jestCommandLine": "yarn test"
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "editorconfig.editorconfig",
+      "orta.vscode-jest"
+    ]
+  }
+}

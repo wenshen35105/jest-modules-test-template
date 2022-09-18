@@ -1,13 +1,15 @@
 import NodeEnvironment from "jest-environment-node";
 
-import type { JestEnvironmentConfig, EnvironmentContext } from "@jest/environment";
+import type {
+  JestEnvironmentConfig,
+  EnvironmentContext,
+} from "@jest/environment";
 import { Context } from "vm";
 
 import * as seleniumUtils from "@lib/core/src/selenium";
 import { WebDriver } from "selenium-webdriver";
 
 class SeleniumEnvironment extends NodeEnvironment {
-
   constructor(config: JestEnvironmentConfig, context: EnvironmentContext) {
     super(config, context);
   }
@@ -22,7 +24,7 @@ class SeleniumEnvironment extends NodeEnvironment {
 
   override async teardown(): Promise<void> {
     await super.teardown();
-    
+
     if (this.global.webDriver) {
       await (this.global.webDriver as WebDriver).quit();
     }
