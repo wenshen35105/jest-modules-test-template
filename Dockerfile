@@ -12,7 +12,6 @@ COPY ./tsconfig.json ./
 COPY ./yarn.lock ./
 COPY ./lerna.json ./
 
-COPY ./modules/lib/types ./modules/lib/types
 COPY ./modules/test/types ./modules/test/types
 
 # --------------------------------- module-a --------------------------------- #

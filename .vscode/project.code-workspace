@@ -5,10 +5,6 @@
       "path": "../"
     },
     {
-      "name": "@lib/types",
-      "path": "../modules/lib/types"
-    },
-    {
       "name": "@lib/core",
       "path": "../modules/lib/core"
     },
@@ -46,7 +42,6 @@
     "jest.autoRun": "off",
     "jest.disabledWorkspaceFolders": [
       "root",
-      "@lib/types",
       "@lib/core",
       "@lib/jest",
       "@lib/module-a",

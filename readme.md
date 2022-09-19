@@ -47,7 +47,6 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
 │  │  │  ├─ src
 │  │  │  │  └─ ...<utils>
 │  │  │  └─ tsconfig.json
-│  │  └─ types
 │  └─ test
 │     ├─ module-a
 │     │  ├─ assets
@@ -76,7 +75,7 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
 - Assets for tests should always be kept in test modules but not in the lib modules
 - Run "yarn validate" to check if your changes break another module before committing
 - Each module has a "package.json". Try to keep the dependencies that are used across different modules in the root "package.json"
-- Shared types should be placed into either "modules/lib/types" or "modules/test/types"
+- Shared types for test modules should be placed "modules/test/types"
 - Categorize your tests within a test module. E.x UI tests or API tests
 - Use "jest environment" for preparing the test environments
 

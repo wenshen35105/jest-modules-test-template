@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import yaml from "yaml";
 
-import type Config from "@lib/types/config";
+import type Config from "./types/config";
 
 const CONFIG_FILE_LOC =
   process.env["CONFIG_FILE_LOC"] || path.resolve(__dirname, "..", "config.yml");
