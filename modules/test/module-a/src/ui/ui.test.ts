@@ -1,5 +1,5 @@
 /**
- * @jest-environment <rootDir>/test/module-a/src/environments/module-a-scenario1
+ * @jest-environment <rootDir>/test/module-a/src/environments/module-a-scenario
  */
 import { describe, test, expect, beforeAll } from "@jest/globals";
 import { getUrl } from "@lib/module-a/src/index";

@@ -20,7 +20,6 @@ FROM base as module-a
 
 # copy lib module
 COPY ./modules/lib/core ./modules/lib/core
-COPY ./modules/lib/jest ./modules/lib/jest
 COPY ./modules/lib/module-a ./modules/lib/module-a
 
 # copy test module
@@ -39,7 +38,6 @@ FROM base as module-b
 
 # copy lib module
 COPY ./modules/lib/core ./modules/lib/core
-COPY ./modules/lib/jest ./modules/lib/jest
 COPY ./modules/lib/module-b ./modules/lib/module-b
 
 # copy test module

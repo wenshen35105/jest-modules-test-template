@@ -7,7 +7,7 @@
   },
   "references": [
     {
-      "path": "../../lib/jest"
+      "path": "../../lib/core"
     },
     {
       "path": "../../lib/module-b"

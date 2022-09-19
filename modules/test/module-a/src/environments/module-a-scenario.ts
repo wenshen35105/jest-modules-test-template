@@ -1,4 +1,4 @@
-import SeleniumEnvironment from "@lib/jest/src/environments/selenium";
+import SeleniumEnvironment from "@lib/core/src/jest/environments/selenium";
 
 import type {
   JestEnvironmentConfig,

@@ -9,10 +9,6 @@
       "path": "./modules/lib/core"
     },
     {
-      "name": "@lib/jest",
-      "path": "./modules/lib/jest"
-    },
-    {
       "name": "@lib/module-a",
       "path": "./modules/lib/module-a"
     },
