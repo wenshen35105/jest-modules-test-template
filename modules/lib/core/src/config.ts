@@ -18,6 +18,10 @@ export const getPlatformConfig = (): Config.PlatformConfig => {
   return config.platform;
 };
 
+export const getAuthConfig = (): Config.AuthConfig => {
+  return config.auth;
+};
+
 export const getSeleniumConfig = (): Config.SeleniumConfig => {
   return config.selenium;
 };

@@ -13,7 +13,7 @@
 
 1. Open [.vscode/project.code-workspace](./.vscode/project.code-workspace) by VSC
 2. Run `yarn` from project root
-3. From VSC, install the "Workspace recommendations" plguins
+3. From VSC, install the "Workspace recommendations" plugins
    1. The recommendation section might not show until you typed in `@recommended` from the search bar
 
 ## Folder structures
@@ -69,14 +69,16 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
 
 ## Best practices
 
-- Utility code (e.x. Selenium page objects, API calls...) should be separated from the testing code and put into a lib module
-- Test assets should always be stored in test modules but not in the lib modules
-- Always run the "yarn validate" script before committing changes
+- High-level abstraction code should be separated from the testing modules and put into a lib module
+  - e.x. API calls for a specific module, Selenium page objects of a module...
+- Module circular reference isn't allowed (@lib/module-a references @lib/module-b, and @lib/module-b references @lib/module-a)
+  - You can glue the usage of modules from the test module based on your test scenario or create another lib module
+- Assets for tests should always be kept in test modules but not in the lib modules
+- Run "yarn validate" to check if your changes break another module before committing
 - Each module has a "package.json". Try to keep the dependencies that are used across different modules in the root "package.json"
 - Shared types should be placed into either "modules/lib/types" or "modules/test/types"
-- Enable ESLint (plugin) for your IDE/editor
-- If a module contains UI and API tests, split the tests into two separate folders
-- If a test needs to perform a pre-test behaviour, try to extract the common steps as a "jest environment"
+- Categorize your tests within a test module. E.x UI tests or API tests
+- Use "jest environment" for preparing the test environments
 
 ## Scripts
 

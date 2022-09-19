@@ -3,5 +3,10 @@ platform:
   host: google.ca
   port: 443
 
+auth:
+  schema: https
+  host: youtube.ca
+  port: 443
+
 selenium:
   browser: chrome

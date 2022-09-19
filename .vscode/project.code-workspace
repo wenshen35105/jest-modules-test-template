@@ -5,6 +5,10 @@
       "path": "../"
     },
     {
+      "name": "@lib/types",
+      "path": "../modules/lib/types"
+    },
+    {
       "name": "@lib/core",
       "path": "../modules/lib/core"
     },
@@ -19,6 +23,10 @@
     {
       "name": "@lib/module-b",
       "path": "../modules/lib/module-b"
+    },
+    {
+      "name": "@test/types",
+      "path": "../modules/test/types"
     },
     {
       "name": "@test/module-a",
@@ -38,12 +46,17 @@
     "jest.autoRun": "off",
     "jest.disabledWorkspaceFolders": [
       "root",
+      "@lib/types",
       "@lib/core",
       "@lib/jest",
       "@lib/module-a",
       "@lib/module-b",
+      "@test/types"
     ],
-    "jest.jestCommandLine": "yarn test"
+    "jest.jestCommandLine": "yarn test",
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
   },
   "extensions": {
     "recommendations": [

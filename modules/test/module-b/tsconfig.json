@@ -7,9 +7,6 @@
   },
   "references": [
     {
-      "path": "../../lib/core"
-    },
-    {
       "path": "../../lib/jest"
     },
     {

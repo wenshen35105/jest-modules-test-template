@@ -1,10 +1,10 @@
 import { describe, test, expect } from "@jest/globals";
 
-import { getPlatformRrequestClient } from "@lib/core/src/request";
+import { getUrl } from "@lib/module-b/src/index";
 
 describe("Test module-b", () => {
-  test("request", async () => {
-    const res = await getPlatformRrequestClient().get("/");
-    expect(res.status).toEqual(200);
+  test("dummy", () => {
+    const url = getUrl();
+    expect(url.toString()).toContain("https");
   });
 });

@@ -5,19 +5,34 @@ import type {
   EnvironmentContext,
 } from "@jest/environment";
 import { Context } from "vm";
-
-import * as seleniumUtils from "@lib/core/src/selenium";
-import { WebDriver } from "selenium-webdriver";
+import { Builder, Browser, WebDriver } from "selenium-webdriver";
+import { getSeleniumConfig } from "@lib/core/src/config";
 
 class SeleniumEnvironment extends NodeEnvironment {
   constructor(config: JestEnvironmentConfig, context: EnvironmentContext) {
     super(config, context);
   }
 
+  async buildWebDriver() {
+    const seleniumConfig = getSeleniumConfig();
+    let browserType: string;
+
+    if (seleniumConfig.browser === "chrome") {
+      browserType = Browser.CHROME;
+    } else if (seleniumConfig.browser === "edge") {
+      browserType = Browser.EDGE;
+    } else {
+      browserType = Browser.FIREFOX;
+    }
+
+    const driver = await new Builder().forBrowser(browserType).build();
+    return driver;
+  }
+
   override async setup(): Promise<void> {
     await super.setup();
 
-    const webDriver = await seleniumUtils.buildWebDriver();
+    const webDriver = await this.buildWebDriver();
     this.global.webDriver = webDriver;
     return Promise.resolve();
   }
