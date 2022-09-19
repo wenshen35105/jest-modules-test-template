@@ -11,7 +11,7 @@
 
 ## To Start
 
-1. Open [.vscode/project.code-workspace](./.vscode/project.code-workspace) by VSC
+1. Open [project.code-workspace](./project.code-workspace) by VSC
 2. Run `yarn` from project root
 3. From VSC, install the "Workspace recommendations" plugins
    1. The recommendation section might not show until you typed in `@recommended` from the search bar
@@ -97,6 +97,18 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
   - Prettier check
 - `yarn lint:prettier:fix`
   - Prettier write
+
+## Creating a new module
+
+1. Create a new module folder under `modules/lib` or `modules/test` depending on the module type
+2. Create a package.json
+   1. Create a validate script
+   2. Create a test script if it's a test module
+3. Create a tsconfig.json and extends the project root tsconfig.json
+   1. Create reference to the other modules that will be used
+4. Edit [project.code-workspace](./project.code-workspace) so that your team members can sync up the workspace settings
+   1. Add the new module under the "folders" section
+   2. Add the module under the "jest.disabledWorkspaceFolders" section if the module is a lib module
 
 ## Docker
 

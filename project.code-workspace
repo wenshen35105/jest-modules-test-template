@@ -2,35 +2,35 @@
   "folders": [
     {
       "name": "root",
-      "path": "../"
+      "path": "."
     },
     {
       "name": "@lib/core",
-      "path": "../modules/lib/core"
+      "path": "./modules/lib/core"
     },
     {
       "name": "@lib/jest",
-      "path": "../modules/lib/jest"
+      "path": "./modules/lib/jest"
     },
     {
       "name": "@lib/module-a",
-      "path": "../modules/lib/module-a"
+      "path": "./modules/lib/module-a"
     },
     {
       "name": "@lib/module-b",
-      "path": "../modules/lib/module-b"
+      "path": "./modules/lib/module-b"
     },
     {
       "name": "@test/types",
-      "path": "../modules/test/types"
+      "path": "./modules/test/types"
     },
     {
       "name": "@test/module-a",
-      "path": "../modules/test/module-a"
+      "path": "./modules/test/module-a"
     },
     {
       "name": "@test/module-b",
-      "path": "../modules/test/module-b"
+      "path": "./modules/test/module-b"
     },
   ],
   "settings": {
