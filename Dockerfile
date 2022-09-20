@@ -1,5 +1,5 @@
 # ----------------------------------- base ----------------------------------- #
-FROM node:16 as base
+FROM node:16-slim as base
 
 ENV WORKDIR=/usr/home
 WORKDIR ${WORKDIR}
