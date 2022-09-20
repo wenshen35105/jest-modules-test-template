@@ -15,13 +15,23 @@ const config: Config.Config = yaml.parse(
 ) as Config.Config;
 
 export const getPlatformConfig = (): Config.PlatformConfig => {
-  return config.platform;
+  const output = config.platform;
+  output.url = new URL(`${output.schema}://${output.host}:${output.port}`);
+  return output;
 };
 
 export const getAuthConfig = (): Config.AuthConfig => {
-  return config.auth;
+  const output = config.auth;
+  output.url = new URL(`${output.schema}://${output.host}:${output.port}`);
+  return output;
 };
 
 export const getSeleniumConfig = (): Config.SeleniumConfig => {
   return config.selenium;
 };
+
+export const getConfig = (): Config.Config => ({
+  platform: getPlatformConfig(),
+  auth: getAuthConfig(),
+  selenium: getSeleniumConfig(),
+});

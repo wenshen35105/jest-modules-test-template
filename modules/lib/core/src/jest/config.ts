@@ -9,7 +9,7 @@ export const getConfig = (moduleDir: string): Config => {
     rootDir,
     roots,
     verbose: true,
-    testEnvironment: "node",
+    testEnvironment: "<rootDir>/lib/core/src/jest/environments/base",
     moduleNameMapper: {
       "^@lib/(.*)$": "<rootDir>/lib/$1",
       "^@test/(.*)$": "<rootDir>/test/$1",

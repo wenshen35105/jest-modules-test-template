@@ -1,15 +1,9 @@
 /**
- * @jest-environment <rootDir>/test/module-a/src/environments/module-a-scenario
+ * @jest-environment <rootDir>/test/module-a/src/ui/base/uiTestBase
  */
-import { describe, test, expect, beforeAll } from "@jest/globals";
+import { describe, test, expect } from "@jest/globals";
 import { getUrl } from "@lib/module-a/src/index";
-import { WebDriver, By } from "selenium-webdriver";
-
-let webDriver: WebDriver;
-
-beforeAll(() => {
-  webDriver = globalThis.webDriver as WebDriver;
-});
+import { By } from "selenium-webdriver";
 
 describe("Test UI", () => {
   test("page", async () => {

@@ -1,15 +1,13 @@
-import SeleniumEnvironment from "@lib/core/src/jest/environments/selenium";
+import NodeEnvironment from "jest-environment-node";
 
 import type {
   JestEnvironmentConfig,
   EnvironmentContext,
 } from "@jest/environment";
 import { Context } from "vm";
-import { WebDriver } from "selenium-webdriver";
+import { getConfig } from "../../config";
 
-import { getPlatformConfig } from "@lib/core/src/config";
-
-class ModuleASeleniumEnvironment extends SeleniumEnvironment {
+class SeleniumEnvironment extends NodeEnvironment {
   constructor(config: JestEnvironmentConfig, context: EnvironmentContext) {
     super(config, context);
   }
@@ -17,12 +15,7 @@ class ModuleASeleniumEnvironment extends SeleniumEnvironment {
   override async setup(): Promise<void> {
     await super.setup();
 
-    const webDriver = this.global.webDriver as WebDriver;
-    const platformConfig = getPlatformConfig();
-
-    await webDriver.get(
-      `${platformConfig.schema}://${platformConfig.host}:${platformConfig.port}`
-    );
+    this.global.config = getConfig();
     return Promise.resolve();
   }
 
@@ -36,4 +29,4 @@ class ModuleASeleniumEnvironment extends SeleniumEnvironment {
   }
 }
 
-export default ModuleASeleniumEnvironment;
+export default SeleniumEnvironment;

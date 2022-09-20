@@ -27,7 +27,7 @@
     {
       "name": "@test/module-b",
       "path": "./modules/test/module-b"
-    },
+    }
   ],
   "settings": {
     "typescript.tsdk": "node_modules/typescript/lib",
@@ -44,11 +44,6 @@
       "@lib/module-b",
       "@test/types"
     ],
-    "jest.showTerminalOnLaunch": true,
-    "jest.testExplorer": {
-      "enabled": true
-    },
-    "jest.enableSnapshotPreviews": true,
     "jest.jestCommandLine": "yarn test",
     "[typescript]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"

@@ -3,12 +3,13 @@ namespace Config {
     host: string;
     schema: string;
     port: number;
+    url: URL;
   }
-
   interface AuthConfig {
     host: string;
     schema: string;
     port: number;
+    url: URL;
   }
 
   interface SeleniumConfig {
