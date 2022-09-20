@@ -1,10 +1,9 @@
 import { describe, test, expect } from "@jest/globals";
-import { getRequestClient } from "@lib/module-a/src/index";
+import { getAnimal } from "@lib/module-a/src/api";
 
 describe("Test API", () => {
   test("get", async () => {
-    const requestClient = getRequestClient();
-    const res = await requestClient.get("/");
-    expect(res.status).toEqual(200);
+    const res = await getAnimal(config.platform.url);
+    expect(res.status).toEqual(404);
   });
 });

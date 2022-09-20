@@ -14,7 +14,7 @@ export const getConfig = (moduleDir: string): Config => {
       "^@lib/(.*)$": "<rootDir>/lib/$1",
       "^@test/(.*)$": "<rootDir>/test/$1",
     },
-    testRunner: "jest-circus",
+    testRunner: "jest-circus/runner",
     transform: {
       "\\.ts": [
         "ts-jest",

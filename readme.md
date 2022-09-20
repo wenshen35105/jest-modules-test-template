@@ -24,40 +24,54 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
 
 ```plain
 /
+├─ Dockerfile
+├─ lerna.json
 ├─ modules
 │  ├─ lib
 │  │  ├─ core
 │  │  │  ├─ config.yml
 │  │  │  ├─ package.json
 │  │  │  ├─ src
-│  │  │  │  └─ ...<utils>
 │  │  │  └─ tsconfig.json
 │  │  ├─ module-a
 │  │  │  ├─ package.json
 │  │  │  ├─ src
-│  │  │  │  └─ ...<utils>
+│  │  │  │  ├─ api
+│  │  │  │  │  └─ index.ts
+│  │  │  │  └─ pageObj
 │  │  │  └─ tsconfig.json
-│  │  ├─ module-b
-│  │  │  ├─ package.json
-│  │  │  ├─ src
-│  │  │  │  └─ ...<utils>
-│  │  │  └─ tsconfig.json
+│  │  └─ module-b
+│  │     ├─ package.json
+│  │     ├─ src
+│  │     │  ├─ api
+│  │     │  │  └─ index.ts
+│  │     │  └─ pageObj
+│  │     └─ tsconfig.json
 │  └─ test
 │     ├─ module-a
 │     │  ├─ assets
 │     │  ├─ jest.config.ts
 │     │  ├─ package.json
 │     │  ├─ src
-│     │  │  └─ ...<tests>
+│     │  │  ├─ api
+│     │  │  │  └─ api.test.ts
+│     │  │  └─ ui
+│     │  │     ├─ base
+│     │  │     │  └─ uiTestBase.ts
+│     │  │     └─ ui.test.ts
 │     │  └─ tsconfig.json
 │     ├─ module-b
 │     │  ├─ asset
 │     │  ├─ jest.config.ts
 │     │  ├─ package.json
 │     │  ├─ src
-│     │  │  └─ ...<tests>
+│     │  │  └─ api
+│     │  │     └─ module-b.test.ts
 │     │  └─ tsconfig.json
 │     └─ types
+│        └─ global.d.ts
+├─ package.json
+├─ project.code-workspace
 └─ tsconfig.json
 ```
 
