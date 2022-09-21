@@ -97,6 +97,16 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
   - Run all tests of a module's folder
 - `yarn workspace @test/module-a test ./modules/module-a/src/test/bvt/module-a.test.ts`
   - Test a specific file from a module
+- `TEST_GROUPS="selenium rest" yarn workspace @test/module-a test`
+  - Test by groups (Split groups by space)
+  - Add group for a test by adding a docblock at the top of the test file
+  - E.x
+  ```
+  /**
+   * @group selenium
+   */
+   <code goes here>
+  ```
 - `yarn validate`
   - Although there's no need to run builds manually for tests in module, tsc is still helpful for helping to catch syntax errors of the tests
 - `yarn lint:prettier:check`
