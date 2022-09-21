@@ -1,6 +1,6 @@
 {
   "extends": "../../../tsconfig.json",
-  "include": ["src/**/*", "jest.config.ts", "../types/global.d.ts"],
+  "include": ["src/**/*", "jest.config.ts"],
   "compilerOptions": {
     "outDir": "../../../dist/test/module-b",
     "rootDir": "."

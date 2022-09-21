@@ -9,7 +9,7 @@ module.exports = {
     // https://github.com/prettier/eslint-plugin-prettier#recommended-configuration
     "plugin:prettier/recommended",
   ],
-  ignorePatterns: ["dist/**/*"],
+  ignorePatterns: ["dist/**/*", ".yarn/**"],
   overrides: [
     {
       files: ["./modules/**/*.ts"],

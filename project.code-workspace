@@ -17,10 +17,6 @@
       "path": "./modules/lib/module-b"
     },
     {
-      "name": "@test/types",
-      "path": "./modules/test/types"
-    },
-    {
       "name": "@test/module-a",
       "path": "./modules/test/module-a"
     },

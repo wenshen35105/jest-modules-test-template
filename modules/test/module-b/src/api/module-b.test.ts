@@ -1,5 +1,3 @@
-import { describe, test, expect } from "@jest/globals";
-
 import { getCar } from "@lib/module-b/src/api";
 
 describe("Test module-b", () => {

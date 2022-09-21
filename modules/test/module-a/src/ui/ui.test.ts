@@ -1,12 +1,18 @@
-/**
- * @jest-environment <rootDir>/test/module-a/src/ui/base/uiTestBase
- */
-import { describe, test, expect } from "@jest/globals";
 import { By } from "selenium-webdriver";
 
-describe("Test UI", () => {
+beforeEach(async () => {
+  await webDriver.get("https://youtube.ca");
+}, 500000);
+
+describe("<selenium> UI", () => {
   test("page", async () => {
     await webDriver.get(config.platform.url.toString());
+    const inputElement = await webDriver.findElement(By.xpath("input"));
+
+    expect(inputElement).not.toBeNull();
+  }, 500000);
+  test("page1", async () => {
+    await webDriver.get("https://ibm.com");
     const inputElement = await webDriver.findElement(By.xpath("input"));
 
     expect(inputElement).not.toBeNull();

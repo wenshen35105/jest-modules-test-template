@@ -1,5 +1,5 @@
-import Config from "@lib/core/src/types/config";
-import { WebDriver } from "selenium-webdriver";
+import type Config from "./config";
+import type { WebDriver } from "@types/selenium-webdriver";
 
 declare global {
   var config: Config.Config;

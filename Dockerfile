@@ -10,9 +10,8 @@ RUN mkdir -p modules/lib && \
 COPY ./package.json ./
 COPY ./tsconfig.json ./
 COPY ./yarn.lock ./
-COPY ./lerna.json ./
-
-COPY ./modules/test/types ./modules/test/types
+COPY ./.yarnrc.yml ./
+COPY ./.yarn ./.yarn
 
 # --------------------------------- module-a --------------------------------- #
 
@@ -27,8 +26,7 @@ COPY ./modules/test/module-a ./modules/test/module-a
 
 RUN yarn && \
   yarn validate && \
-  rm -rf dist && \
-  yarn install --prod
+  rm -rf dist
 
 CMD [ "yarn", "test" ]
 
@@ -45,7 +43,6 @@ COPY ./modules/test/module-b ./modules/test/module-b
 
 RUN yarn && \
   yarn validate && \
-  rm -rf dist && \
-  yarn install --prod
+  rm -rf dist
 
 CMD [ "yarn", "test" ]

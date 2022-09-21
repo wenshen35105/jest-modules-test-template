@@ -4,5 +4,11 @@
   "private": true,
   "scripts": {
     "validate": "tsc --build ."
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.3"
   }
 }
