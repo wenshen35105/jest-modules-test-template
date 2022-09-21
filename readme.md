@@ -6,7 +6,6 @@
 - Test Modules are allowed to use shared utilities from a lib module
 - Test assets for each test module are independent
 - No compilation is required, but validation by using "tsc" is still supported
-- Test environments can be customized and inherited
 - Easily run/debug tests
 
 ## To Start
@@ -84,10 +83,7 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
     - You can glue the usage of modules from the test module based on your test scenario or create another lib module
 - Assets for tests should always be kept in test modules but not in the lib modules
 - Run "yarn validate" to check if your changes break another module before committing
-- Each module has a "package.json", but try to keep the dependencies that are used across different modules in the root "package.json"
-- Shared types for test modules should be placed "modules/test/types"
 - Categorize your tests within a test module. E.x UI tests or API tests
-- You can use "jest environment" for preparing the test environments
 
 ## Scripts
 

@@ -10,3 +10,4 @@ auth:
 
 selenium:
   browser: chrome
+  webDriverCycle: test # when webDriver should be restarted? In "run" / "test" scope

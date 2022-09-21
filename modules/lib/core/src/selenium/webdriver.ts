@@ -1,5 +1,5 @@
 import { Builder, Browser } from "selenium-webdriver";
-import { getSeleniumConfig } from "@lib/core/src/config";
+import { getSeleniumConfig } from "@lib/core/src/config/configFile";
 
 export const buildWebDriver = async () => {
   const seleniumConfig = getSeleniumConfig();

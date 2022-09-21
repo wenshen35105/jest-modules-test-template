@@ -12,8 +12,11 @@ namespace Config {
     url: URL;
   }
 
+  type WebDriverCycle = "run" | "test";
+
   interface SeleniumConfig {
     browser: "chrome" | "edge" | "firefox";
+    webDriverCycle: WebDriverCycle;
   }
 
   interface Config {
@@ -22,7 +25,7 @@ namespace Config {
     selenium: SeleniumConfig;
   }
 
-  export { PlatformConfig, AuthConfig, SeleniumConfig, Config };
+  export { PlatformConfig, AuthConfig, SeleniumConfig, WebDriverCycle, Config };
 }
 
 export default Config;
