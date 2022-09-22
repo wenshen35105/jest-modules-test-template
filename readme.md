@@ -2,8 +2,6 @@
 
 ## Getting started 🚪
 
----
-
 ### Install
 
 1. Open [project.code-workspace](./project.code-workspace) by VSC
@@ -37,8 +35,6 @@
   - synchronize vsc config based on modules
 
 ## High-Level Understanding 👀
-
----
 
 ### Features
 
@@ -113,8 +109,6 @@ Each test module has a Jest config file which means they are independent to each
 
 ## Test
 
----
-
 ### Timeout
 
 Default test timeout is increased to 8s for non-UI test and 2mins for UI tests.
@@ -149,8 +143,6 @@ Selenium utility is integrated with the "@lib/core" module by default. Specify a
 
 ## Best practices 💦
 
----
-
 - High-level abstraction code should be separated from the testing modules and put into a lib module
   - e.x. API calls for a specific module, Selenium page objects of a module...
   - You are not encouraged to link two @lib modules (except @lib/core)
@@ -162,8 +154,6 @@ Selenium utility is integrated with the "@lib/core" module by default. Specify a
 - Categorize your tests folder within a test module. E.x UI tests or API tests
 
 ## Package & Ship 📦
-
----
 
 ### Docker
 
