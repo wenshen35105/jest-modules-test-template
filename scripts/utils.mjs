@@ -150,13 +150,14 @@ export const syncProjectCodeWorkspace = async () => {
   // writing back
   fs.writeFileSync(file, JSON.stringify(json), "utf-8");
   // call prettier
-  return execa(
+  await execa(
     "yarn",
     ["prettier", file, "--cache", "--write", "--parser", "json"],
     {
       cwd: rootDir,
     }
   );
+  return execa("yarn", { cwd: rootDir });
 };
 
 export const resolvePackageName = (modulePackageName) => {

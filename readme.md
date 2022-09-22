@@ -31,18 +31,10 @@
   - Prettier check
 - `yarn lint:prettier:fix`
   - Prettier write
-
-### Creating a new module
-
-1. Create a new module folder under `modules/lib` or `modules/test` depending on the module type
-2. Create a package.json
-   1. Create a validate script
-   2. Create a test script if it's a test module
-3. Create a tsconfig.json and extends the project root tsconfig.json
-   1. Create reference to the other modules that will be used
-4. Edit [project.code-workspace](./project.code-workspace) so that your team members can sync up the workspace settings
-   1. Add the new module under the "folders" section
-   2. Add the module under the "jest.disabledWorkspaceFolders" section if the module is a lib module
+- `yarn module:create`
+  - create a new lib/test module
+- `yarn workspace:sync`
+  - synchronize vsc config based on modules
 
 ## High-Level Understanding 👀
 
