@@ -61,7 +61,7 @@ export const createModuleDir = (type, moduleName, ...path) => {
   const targetPath = resolve(modulePath, ...path);
   if (!fs.existsSync(targetPath)) fs.mkdirSync(targetPath, { recursive: true });
   if (readdirSync(targetPath).length === 0) {
-    fs.writeFileSync(resolve(targetPath, ".gitignore"), "", "utf-8");
+    fs.writeFileSync(resolve(targetPath, ".gitkeep"), "", "utf-8");
   }
 };
 
@@ -120,12 +120,12 @@ export const createPackageJson = (type, moduleName) => {
 export const createJestConfig = (type, moduleName) => {
   if (type === "lib") return;
   const modulePath = resolve(testDir, moduleName);
-  const tmpl = ```
+  const tmpl = `
   import { getConfig } from "@lib/core/src/jest";
   import type { Config } from "jest";
 
   export default (): Config => getConfig(__dirname);
-  ```;
+  `;
   fs.writeFileSync(resolve(modulePath, "jest.config.ts"), tmpl, "utf-8");
 };
 
