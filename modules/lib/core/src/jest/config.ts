@@ -19,6 +19,7 @@ export const getConfig = (moduleDir: string): Config => {
     },
     runner: "<rootDir>/lib/core/src/jest/runner",
     testRunner: require.resolve("jest-circus/runner"),
+    setupFilesAfterEnv: ["<rootDir>/lib/core/src/jest/setTimeout.ts"],
     transform: {
       "\\.ts": [
         "ts-jest",

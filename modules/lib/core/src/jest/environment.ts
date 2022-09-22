@@ -6,10 +6,10 @@ import type {
   EnvironmentContext,
 } from "@jest/environment";
 import type { Event } from "jest-circus";
-import type { PragmaSeleniumConfig } from "../../types/pragma";
+import type { PragmaSeleniumConfig } from "../types/pragma";
 
-import { getConfig, getSeleniumConfigForTest } from "../../config";
-import { buildWebDriver } from "../../selenium";
+import { getConfig, getSeleniumConfigForTest } from "../config";
+import { buildWebDriver } from "../selenium";
 
 class CoreEnvironment extends NodeEnvironment {
   jestConfig!: JestEnvironmentConfig;

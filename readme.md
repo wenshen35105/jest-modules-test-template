@@ -1,6 +1,54 @@
 # Template repo for e2e modules/components testing based on Jest, Typescript
 
-## Features
+## Getting started 🚪
+
+---
+
+### Install
+
+1. Open [project.code-workspace](./project.code-workspace) by VSC
+2. Run `yarn` from project root
+3. From VSC, install the "Workspace recommendations" plugins
+   1. The recommendation section might not show until you typed in `@recommended` from the search bar
+
+### Scripts
+
+#### Project root
+
+- `yarn test`
+  - Test all the modules from the project in parallel
+- `yarn workspace @test/module-a test`
+  - Test a specific module
+- `yarn workspace @test/module-a test ./modules/module-a/src/test/bvt`
+  - Run all tests of a module's folder
+- `yarn workspace @test/module-a test ./modules/module-a/src/test/bvt/module-a.test.ts`
+  - Test a specific file from a module
+- `TEST_GROUPS="selenium rest" yarn workspace @test/module-a test`
+  - Test by groups (Split groups by space)
+- `yarn validate`
+  - Although there's no need to run builds manually for tests in module, tsc is still helpful for helping to catch syntax errors of the tests
+- `yarn lint:prettier:check`
+  - Prettier check
+- `yarn lint:prettier:fix`
+  - Prettier write
+
+### Creating a new module
+
+1. Create a new module folder under `modules/lib` or `modules/test` depending on the module type
+2. Create a package.json
+   1. Create a validate script
+   2. Create a test script if it's a test module
+3. Create a tsconfig.json and extends the project root tsconfig.json
+   1. Create reference to the other modules that will be used
+4. Edit [project.code-workspace](./project.code-workspace) so that your team members can sync up the workspace settings
+   1. Add the new module under the "folders" section
+   2. Add the module under the "jest.disabledWorkspaceFolders" section if the module is a lib module
+
+## High-Level Understanding 👀
+
+---
+
+### Features
 
 - Each test module can be shipped individually. You only need to package the test modules and their lib modules
 - Test Modules are allowed to use shared utilities from a lib module
@@ -8,14 +56,7 @@
 - No compilation is required, but validation by using "tsc" is still supported
 - Easily run/debug tests
 
-## To Start
-
-1. Open [project.code-workspace](./project.code-workspace) by VSC
-2. Run `yarn` from project root
-3. From VSC, install the "Workspace recommendations" plugins
-   1. The recommendation section might not show until you typed in `@recommended` from the search bar
-
-## Folder structures
+### Folder structures
 
 There're two test modules from the tree diagram below, where module-a and module-b are both referencing the core, jest lib modules.
 
@@ -74,7 +115,49 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
 └─ tsconfig.json
 ```
 
-## Best practices
+### Jest
+
+Each test module has a Jest config file which means they are independent to each other. By default configurations for each test module is genearted from the @lib/core module (Check [config.ts](./modules/lib/core/src/jest/config.ts)).
+
+## Test
+
+---
+
+### Timeout
+
+Default test timeout is increased to 8s for non-UI test and 2mins for UI tests.
+
+### Test Group
+
+Test group is supported by adding a jsdoc from the top of the test file. Check the command above for filtering tests by groups.
+
+```
+/**
+* @group selenium
+*/
+
+<code goes here>
+```
+
+### Selenium
+
+Selenium utility is integrated with the "@lib/core" module by default. Specify a "selenium" group or use the "@selenium" tag as the example below for injecting `webDriver` into the test. You can control when webDriver will be re-created by changing the "webDriverCycle" value. When it's equalled to "test" that means `webDriver` will be re-created for each Jest "test" block and vice verse.
+
+```
+/**
+* @group selenium
+*
+* or
+*
+* @selenium { "webDriverCycle": "test" }
+*/
+
+<code goes here>
+```
+
+## Best practices 💦
+
+---
 
 - High-level abstraction code should be separated from the testing modules and put into a lib module
   - e.x. API calls for a specific module, Selenium page objects of a module...
@@ -83,50 +166,14 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
     - You can glue the usage of modules from the test module based on your test scenario or create another lib module
 - Assets for tests should always be kept in test modules but not in the lib modules
 - Run "yarn validate" to check if your changes break another module before committing
-- Categorize your tests within a test module. E.x UI tests or API tests
+- Group the tests
+- Categorize your tests folder within a test module. E.x UI tests or API tests
 
-## Scripts
+## Package & Ship 📦
 
-### Project root
+---
 
-- `yarn test`
-  - Test all the modules from the project in parallel
-- `yarn workspace @test/module-a test`
-  - Test a specific module
-- `yarn workspace @test/module-a test ./modules/module-a/src/test/bvt`
-  - Run all tests of a module's folder
-- `yarn workspace @test/module-a test ./modules/module-a/src/test/bvt/module-a.test.ts`
-  - Test a specific file from a module
-- `TEST_GROUPS="selenium rest" yarn workspace @test/module-a test`
-  - Test by groups (Split groups by space)
-  - Add group for a test by adding a docblock at the top of the test file
-  - E.x
-  ```
-  /**
-   * @group selenium
-   */
-   <code goes here>
-  ```
-- `yarn validate`
-  - Although there's no need to run builds manually for tests in module, tsc is still helpful for helping to catch syntax errors of the tests
-- `yarn lint:prettier:check`
-  - Prettier check
-- `yarn lint:prettier:fix`
-  - Prettier write
-
-## Creating a new module
-
-1. Create a new module folder under `modules/lib` or `modules/test` depending on the module type
-2. Create a package.json
-   1. Create a validate script
-   2. Create a test script if it's a test module
-3. Create a tsconfig.json and extends the project root tsconfig.json
-   1. Create reference to the other modules that will be used
-4. Edit [project.code-workspace](./project.code-workspace) so that your team members can sync up the workspace settings
-   1. Add the new module under the "folders" section
-   2. Add the module under the "jest.disabledWorkspaceFolders" section if the module is a lib module
-
-## Docker
+### Docker
 
 There's only one [Dockerfile](Dockerfile) from the project, but the single Dockerfile can use for shipping multiple modules by using the docker target feature.
 

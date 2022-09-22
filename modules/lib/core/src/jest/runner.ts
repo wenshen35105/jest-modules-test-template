@@ -5,8 +5,8 @@ import { TestWatcher } from "jest-watcher";
 
 import type { TestRunnerOptions, TestRunnerContext } from "jest-runner";
 
-import { getTestPragmas, getGroupFromPragmas } from "../../utils";
-import { ENV_GROUP_FILTER } from "../../const";
+import { getTestPragmas, getGroupFromPragmas } from "../utils";
+import { ENV_GROUP_FILTER } from "../const";
 
 class CoreRunner extends JestTestRunner {
   constructor(config: Config.GlobalConfig, context: TestRunnerContext) {
