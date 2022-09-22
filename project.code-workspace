@@ -35,10 +35,8 @@
     "jest.disabledWorkspaceFolders": [
       "root",
       "@lib/core",
-      "@lib/jest",
       "@lib/module-a",
-      "@lib/module-b",
-      "@test/types"
+      "@lib/module-b"
     ],
     "jest.jestCommandLine": "yarn test",
     "[typescript]": {

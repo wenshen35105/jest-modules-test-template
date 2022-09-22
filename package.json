@@ -29,6 +29,7 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-jest": "^27.0.4",
     "eslint-plugin-prettier": "^4.2.1",
+    "execa": "^6.1.0",
     "inquirer": "^9.1.2",
     "prettier": "2.7.1"
   },

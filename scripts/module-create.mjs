@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { isModuleExist } from "./utils.mjs";
+import { isModuleExist, createModule } from "./utils.mjs";
 
 (async () => {
   let moduleType;
@@ -32,25 +32,9 @@ import { isModuleExist } from "./utils.mjs";
           },
         },
       ]);
+    })
+    .then((res) => {
+      moduleName = res.moduleName;
+      return createModule(moduleType, moduleName);
     });
-  // const moduleName = await inquirer.prompt([
-  //   {
-  //     type: "input",
-  //     name: "moduleName",
-  //     message: "what is the module name?",
-  //     validate(val) {
-  //       if (!val) {
-  //         return "Please enter a valid module name";
-  //       }
-  //       if (isModuleExist(moduleType, val)) {
-  //         return "Module existed";
-  //       }
-  //       return true;
-  //     },
-  //   },
-  // ])["moduleName"];
-  // console.log(
-  //   "🚀 ~ file: module-create.mjs ~ line 29 ~ moduleName",
-  //   moduleName
-  // );
 })();
