@@ -1,35 +1,15 @@
 {
   "folders": [
-    {
-      "name": "root",
-      "path": "."
-    },
-    {
-      "name": "@lib/core",
-      "path": "./modules/lib/core"
-    },
-    {
-      "name": "@lib/module-a",
-      "path": "./modules/lib/module-a"
-    },
-    {
-      "name": "@lib/module-b",
-      "path": "./modules/lib/module-b"
-    },
-    {
-      "name": "@test/module-a",
-      "path": "./modules/test/module-a"
-    },
-    {
-      "name": "@test/module-b",
-      "path": "./modules/test/module-b"
-    }
+    { "name": "root", "path": "." },
+    { "name": "@lib/core", "path": "./modules/lib/core" },
+    { "name": "@lib/module-a", "path": "./modules/lib/module-a" },
+    { "name": "@lib/module-b", "path": "./modules/lib/module-b" },
+    { "name": "@test/module-a", "path": "./modules/test/module-a" },
+    { "name": "@test/module-b", "path": "./modules/test/module-b" }
   ],
   "settings": {
     "typescript.tsdk": "node_modules/typescript/lib",
-    "editor.codeActionsOnSave": {
-      "source.fixAll": true
-    },
+    "editor.codeActionsOnSave": { "source.fixAll": true },
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "jest.autoRun": "off",
     "jest.disabledWorkspaceFolders": [
@@ -39,9 +19,7 @@
       "@lib/module-b"
     ],
     "jest.jestCommandLine": "yarn test",
-    "[typescript]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
+    "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
     "search.exclude": {
       "**/node_modules": true,
       "**/bower_components": true,

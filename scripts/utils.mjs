@@ -50,7 +50,9 @@ export const createModule = async (type, moduleName) => {
   createPackageJson(type, moduleName);
   createJestConfig(type, moduleName);
   await execa("yarn", { cwd: rootDir });
-  await execa("yarn", ["prettier", modulePath], { cwd: rootDir });
+  await execa("yarn", ["prettier", modulePath, "--cache", "--write"], {
+    cwd: rootDir,
+  });
   await syncProjectCodeWorkspace();
 };
 
@@ -64,7 +66,7 @@ export const createModuleDir = (type, moduleName, ...path) => {
 };
 
 export const createTsConfig = (type, moduleName) => {
-  console.log(`Creating package.json for '@${type}/${moduleName}'`);
+  console.log(`Creating tsconfig.json for '@${type}/${moduleName}'`);
 
   const modulePath = resolve(type === "lib" ? libDir : testDir, moduleName);
   const tsConfigTmpl = {
@@ -128,19 +130,19 @@ export const createJestConfig = (type, moduleName) => {
 };
 
 export const syncProjectCodeWorkspace = async () => {
-  const file = resolve(rootDir, "project.code-workpsace");
+  const file = resolve(rootDir, "project.code-workspace");
   const json = JSON.parse(fs.readFileSync(file, "utf-8"));
   const libModules = getLibModuleList().map((l) => `@lib/${l}`);
   const testModules = getTestModuleList().map((l) => `@test/${l}`);
   // set folders
-  json.folders = ["root", ...libModules, ...testModules].forEach(
-    (moduleName) => {
+  json.folders = ["root", ...libModules, ...testModules].map(
+    (modulePackageName) => {
       let path = ".";
-      if (moduleName !== "root") {
-        const moduleType = moduleName.split("/")[0].split("@")[1];
-        path = `./modules/${moduleType}/${moduleName}`;
+      if (modulePackageName !== "root") {
+        const [type, name] = resolvePackageName(modulePackageName);
+        path = `./modules/${type}/${name}`;
       }
-      return { name: moduleName, path };
+      return { name: modulePackageName, path };
     }
   );
   // set jest.disabledWorkspaceFolders
@@ -148,5 +150,17 @@ export const syncProjectCodeWorkspace = async () => {
   // writing back
   fs.writeFileSync(file, JSON.stringify(json), "utf-8");
   // call prettier
-  return execa("yarn", ["prettier", file], { cwd: rootDir });
+  return execa(
+    "yarn",
+    ["prettier", file, "--cache", "--write", "--parser", "json"],
+    {
+      cwd: rootDir,
+    }
+  );
+};
+
+export const resolvePackageName = (modulePackageName) => {
+  const name = modulePackageName.split("/")[1];
+  const type = modulePackageName.split("/")[0].split("@")[1];
+  return [type, name];
 };

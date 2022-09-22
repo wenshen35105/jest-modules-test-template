@@ -7,7 +7,9 @@
     "test": "yarn workspaces foreach -vpt --include '@test/*' run test",
     "validate": "yarn workspaces foreach -v run validate",
     "lint:prettier:check": "prettier . --cache --check",
-    "lint:prettier:fix": "prettier . --cache --write"
+    "lint:prettier:fix": "prettier . --cache --write",
+    "module:create": "node scripts/module-create.mjs",
+    "workspace:sync": "node scripts/workspace-config-sync.mjs"
   },
   "workspaces": [
     "modules/lib/**",
