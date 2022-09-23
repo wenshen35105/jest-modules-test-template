@@ -11,6 +11,8 @@
     // debug
     "sourceMap": true,
     // additional check
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,

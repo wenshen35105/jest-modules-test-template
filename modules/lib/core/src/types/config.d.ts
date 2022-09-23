@@ -17,15 +17,36 @@ namespace Config {
   interface SeleniumConfig {
     browser: "chrome" | "edge" | "firefox";
     webDriverCycle: WebDriverCycle;
+    window: {
+      defaultMaxmize: boolean;
+      width: number;
+      height: number;
+    };
+    webDriversDir: string | undefined;
+  }
+
+  interface JestConfig {
+    timeoutGroup: {
+      default: string;
+      [extras: PropertyKey]: string;
+    };
   }
 
   interface Config {
     platform: PlatformConfig;
     auth: AuthConfig;
     selenium: SeleniumConfig;
+    jest: JestConfig;
   }
 
-  export { PlatformConfig, AuthConfig, SeleniumConfig, WebDriverCycle, Config };
+  export {
+    PlatformConfig,
+    AuthConfig,
+    SeleniumConfig,
+    WebDriverCycle,
+    JestConfig,
+    Config,
+  };
 }
 
 export default Config;

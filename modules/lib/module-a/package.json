@@ -3,12 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "validate": "tsc --build ."
+    "validate": "yarn root:validate"
   },
   "dependencies": {
     "axios": "^0.27.2"
-  },
-  "devDependencies": {
-    "typescript": "^4.8.3"
   }
 }

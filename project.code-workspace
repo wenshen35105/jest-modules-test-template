@@ -4,6 +4,7 @@
     { "name": "@lib/core", "path": "./modules/lib/core" },
     { "name": "@lib/module-a", "path": "./modules/lib/module-a" },
     { "name": "@lib/module-b", "path": "./modules/lib/module-b" },
+    { "name": "@lib/types", "path": "./modules/lib/types" },
     { "name": "@test/module-a", "path": "./modules/test/module-a" },
     { "name": "@test/module-b", "path": "./modules/test/module-b" }
   ],
@@ -16,7 +17,8 @@
       "root",
       "@lib/core",
       "@lib/module-a",
-      "@lib/module-b"
+      "@lib/module-b",
+      "@lib/types"
     ],
     "jest.jestCommandLine": "yarn test",
     "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },

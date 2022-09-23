@@ -1,3 +1,36 @@
+jest:
+  # set default timeout for docblock @group
+  # we will pick the largest timeout if a test is in multiple groups
+  # check the supported format form the link below
+  # https://github.com/jkroso/parse-duration#parsestr-formatms
+  timeoutGroup:
+    #  default is >= 5s
+    default: 5s
+
+    #  e.g. @group selenium
+    selenium: 2mins
+
+selenium:
+  # browser type: 'chrome' | 'edge' | 'firefox'
+  browser: chrome
+
+  # when webDriver should be restarted? In 'run' | 'test' scope
+  webDriverCycle: test
+
+  # specify the directory for the webDrivers
+  # if you don't want to use the default webDriver
+  webDriversDir: ""
+
+  window:
+    # set browser to maxmize by default
+    # if equals to true, 'width' and 'height' below won't take effect
+    defaultMaxmize: false
+
+    # default browser width
+    width: 1920
+    # default browser height
+    height: 1080
+
 platform:
   schema: https
   host: google.ca
@@ -7,7 +40,3 @@ auth:
   schema: https
   host: youtube.ca
   port: 443
-
-selenium:
-  browser: chrome
-  webDriverCycle: test # when webDriver should be restarted? In "run" / "test" scope

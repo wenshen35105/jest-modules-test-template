@@ -16,10 +16,15 @@ export const getConfig = (moduleDir: string): Config => {
       typescript: require.resolve("typescript"),
       "ts-node": require.resolve("ts-node"),
       "ts-jest": require.resolve("ts-jest"),
+      "selenium-webdriver": require.resolve("selenium-webdriver"),
     },
     runner: "<rootDir>/lib/core/src/jest/runner",
     testRunner: require.resolve("jest-circus/runner"),
     setupFilesAfterEnv: ["<rootDir>/lib/core/src/jest/setTimeout.ts"],
+    globals: {
+      __MODULE_DIR: moduleDir,
+    },
+    globalSetup: "<rootDir>/lib/core/src/jest/globalSetup.ts",
     transform: {
       "\\.ts": [
         "ts-jest",

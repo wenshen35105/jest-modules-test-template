@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "test": "yarn workspaces foreach -vpt --include '@test/*' run test",
-    "validate": "yarn workspaces foreach -v run validate",
+    "test": "yarn workspaces foreach -ivpt --include '@test/*' run test",
+    "validate": "yarn workspaces foreach -Aiv run validate",
+    "root:validate": "cd $INIT_CWD && tsc --build .",
     "lint:prettier:check": "prettier . --cache --check",
     "lint:prettier:fix": "prettier . --cache --write",
     "module:create": "node scripts/module-create.mjs",
@@ -33,7 +34,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "execa": "^6.1.0",
     "inquirer": "^9.1.2",
-    "prettier": "2.7.1"
+    "prettier": "2.7.1",
+    "typescript": "^4.8.3"
   },
   "packageManager": "yarn@3.2.3",
   "prettier": {

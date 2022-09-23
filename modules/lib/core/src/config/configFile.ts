@@ -3,6 +3,7 @@ import fs from "fs";
 import yaml from "yaml";
 
 import type Config from "../types/config";
+import { TIMEOUT__TEST_DEFAULT } from "../const";
 
 const CONFIG_FILE_LOC =
   process.env["CONFIG_FILE_LOC"] ||
@@ -47,13 +48,29 @@ export const getSeleniumConfig = (): Config.SeleniumConfig => {
   const defaultCfg: Config.SeleniumConfig = {
     browser: "chrome",
     webDriverCycle: "test",
+    webDriversDir: undefined,
+    window: {
+      defaultMaxmize: false,
+      width: 1920,
+      height: 1080,
+    },
   };
 
   return { ...defaultCfg, ...config.selenium };
 };
 
+export const getJestConfig = (): Config.JestConfig => {
+  const defaultCfg: Config.JestConfig = {
+    timeoutGroup: {
+      default: TIMEOUT__TEST_DEFAULT,
+    },
+  };
+  return { ...defaultCfg, ...config.jest };
+};
+
 export const getConfig = (): Config.Config => ({
+  jest: getJestConfig(),
+  selenium: getSeleniumConfig(),
   platform: getPlatformConfig(),
   auth: getAuthConfig(),
-  selenium: getSeleniumConfig(),
 });

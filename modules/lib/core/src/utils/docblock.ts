@@ -37,7 +37,7 @@ export const getSeleniumConfigFromPragmas = (
         webDriverCycle: seleniumConfigBuf.webDriverCycle,
       };
     } catch (e) {
-      console.log("Invalid 'selenium' config in docblock");
+      console.error("Invalid 'selenium' config in docblock");
       throw e;
     }
   }

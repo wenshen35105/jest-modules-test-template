@@ -100,12 +100,12 @@ export const createPackageJson = (type, moduleName) => {
     version: getProjRootPackageJson()?.version || "0.0.1",
     private: true,
     scripts: {
-      validate: "tsc --build .",
+      validate: "yarn root:validate",
     },
   };
 
   if (type === "test") {
-    packageJsonTmpl.scripts["test"] = "jest";
+    packageJsonTmpl.scripts["test"] = "yarn core:test";
     packageJsonTmpl.dependencies = getPeerDependencies("lib", "core");
     packageJsonTmpl.dependencies["@lib/core"] = "workspace:^";
   }
@@ -118,6 +118,8 @@ export const createPackageJson = (type, moduleName) => {
 };
 
 export const createJestConfig = (type, moduleName) => {
+  console.log(`Creating jest.config for '@${type}/${moduleName}'`);
+
   if (type === "lib") return;
   const modulePath = resolve(testDir, moduleName);
   const tmpl = `
@@ -130,6 +132,8 @@ export const createJestConfig = (type, moduleName) => {
 };
 
 export const syncProjectCodeWorkspace = async () => {
+  console.log("Synchronizing project workspace setting");
+
   const file = resolve(rootDir, "project.code-workspace");
   const json = JSON.parse(fs.readFileSync(file, "utf-8"));
   const libModules = getLibModuleList().map((l) => `@lib/${l}`);

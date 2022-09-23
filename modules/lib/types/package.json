@@ -1,11 +1,8 @@
 {
-  "name": "@lib/module-b",
+  "name": "@lib/types",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "validate": "yarn root:validate"
-  },
-  "dependencies": {
-    "axios": "^0.27.2"
   }
 }

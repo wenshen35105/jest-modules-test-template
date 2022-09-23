@@ -12,3 +12,5 @@ dist/**
 !.yarn/versions
 
 lerna-debug.log
+
+modules/test/*/output

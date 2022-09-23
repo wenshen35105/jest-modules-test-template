@@ -7,7 +7,9 @@ import type { TestRunnerOptions, TestRunnerContext } from "jest-runner";
 
 import { getTestPragmas, getGroupFromPragmas } from "../utils";
 import { ENV_GROUP_FILTER } from "../const";
+import { validateChromeDriver, overrideWebDriverDir } from "../selenium";
 
+// https://jestjs.io/docs/configuration#runner-string
 class CoreRunner extends JestTestRunner {
   constructor(config: Config.GlobalConfig, context: TestRunnerContext) {
     super(config, context);
@@ -29,7 +31,7 @@ class CoreRunner extends JestTestRunner {
       }
     });
 
-    console.log(
+    console.info(
       "(GROUP) Filtered tests: " +
         targetTests.reduce((prev, curr) => `${prev}\n${curr.path}`, "")
     );
@@ -42,6 +44,11 @@ class CoreRunner extends JestTestRunner {
     options: TestRunnerOptions
   ): Promise<void> {
     const targetTests = this.getFilteredTests(tests);
+
+    if (!overrideWebDriverDir()) {
+      // validate/modify selenium webdrivers
+      await validateChromeDriver();
+    }
 
     return await super.runTests(targetTests, watcher, options);
   }
