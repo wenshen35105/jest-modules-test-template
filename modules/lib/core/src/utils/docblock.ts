@@ -4,6 +4,7 @@ import fs from "fs";
 import { PRAGMA__GROUP, PRAGMA__SELENIUM } from "../const";
 
 import type { Pragmas, PragmaSeleniumConfig } from "../types/pragma";
+import { consoleError } from "./log";
 
 export const getTestPragmas = (pathToTest: string): Pragmas => {
   const pragmas = parseDocBlock(fs.readFileSync(pathToTest, "utf8"));
@@ -37,7 +38,7 @@ export const getSeleniumConfigFromPragmas = (
         webDriverCycle: seleniumConfigBuf.webDriverCycle,
       };
     } catch (e) {
-      console.error("Invalid 'selenium' config in docblock");
+      consoleError("Invalid 'selenium' config in docblock");
       throw e;
     }
   }

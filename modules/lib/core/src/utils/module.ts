@@ -1,14 +1,17 @@
 import path from "path";
 import fs from "fs";
 
-import { getTestPragmas, getGroupFromPragmas } from "./docblock";
-import { ModuleRuntimeInfo, TestRuntimeInfo } from "../types/global";
+import { ModuleRuntimeInfo } from "../types/global";
+
+export const MODULE_SRC_DIR = "src";
+export const MODULE_OUT_DIR = "output";
 
 const getModuleDirs = (moduleDir: string) => {
-  const outputDir = path.resolve(moduleDir, "output");
+  const srcDir = path.resolve(moduleDir, MODULE_SRC_DIR);
+  const outputDir = path.resolve(moduleDir, MODULE_OUT_DIR);
   return {
-    logDir: path.resolve(outputDir, "log"),
-    failedScreenShotDir: path.resolve(outputDir, "failedScreenshot"),
+    srcDir,
+    outputDir,
   };
 };
 
@@ -21,26 +24,47 @@ export const getTestModuleInfoForTest = (
   const moduleInfo: ModuleRuntimeInfo = {
     type: "test",
     name: moduleName,
-    logDir: moduleDirs.logDir,
-    failedScreenShotDir: moduleDirs.failedScreenShotDir,
+    srcDir: moduleDirs.srcDir,
+    outputDir: moduleDirs.outputDir,
   };
 
   return moduleInfo;
 };
 
-export const getTestInfoForTest = (testPath: string): TestRuntimeInfo => {
-  return {
-    groups: getGroupFromPragmas(getTestPragmas(testPath)),
-    testPath: testPath,
-  };
-};
-
 export const initTestModuleDirs = (moduleDir: string) => {
   const moduleDirs = getModuleDirs(moduleDir);
-  [moduleDirs.logDir, moduleDirs.failedScreenShotDir].forEach((dir) => {
+  [moduleDirs.outputDir].forEach((dir) => {
     if (fs.existsSync(dir)) {
       fs.rmSync(dir, { force: true, recursive: true, maxRetries: 2 });
     }
     fs.mkdirSync(dir, { recursive: true });
   });
+};
+
+export const resolveModuleRelativePath = (
+  moduleDir: string,
+  testPath: string,
+  replaceBasedDir: {
+    src: string;
+    dest: string;
+  },
+  ...subDir: string[]
+): string => {
+  if (!testPath.startsWith(moduleDir)) {
+    throw new Error("Invalid testPath");
+  }
+  let outFolderPath = path.dirname(testPath);
+  outFolderPath = outFolderPath
+    .split(moduleDir)[1]
+    .replace(replaceBasedDir.src, replaceBasedDir.dest);
+  outFolderPath = outFolderPath.startsWith(path.sep)
+    ? outFolderPath.slice(1)
+    : outFolderPath;
+  outFolderPath = path.resolve(moduleDir, outFolderPath, ...subDir);
+
+  if (!fs.existsSync(outFolderPath)) {
+    fs.mkdirSync(outFolderPath, { recursive: true });
+  }
+
+  return outFolderPath;
 };

@@ -790,11 +790,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lib/core@workspace:modules/lib/core"
   dependencies:
+    "@jest/environment": ^29.0.3
+    "@jest/globals": ^29.0.3
+    "@jest/reporters": ^29.0.3
+    "@jest/test-result": ^29.0.3
+    "@jest/types": ^29.0.3
     "@testim/chrome-version": ^1.1.3
     "@types/chromedriver": ^81.0.1
     "@types/jest": ^29.0.3
     "@types/node": ^16.0.0
     "@types/selenium-webdriver": ^4.1.5
+    chalk: ^4.1.2
     chromedriver: ^105.0.1
     geckodriver: ^3.0.2
     jest: ^29.0.3
@@ -802,6 +808,8 @@ __metadata:
     jest-docblock: ^29.0.0
     jest-environment-node: ^29.0.3
     jest-runner: ^29.0.3
+    jest-watcher: ^29.0.3
+    ms-chromium-edge-driver: ^0.5.1
     parse-duration: ^1.0.2
     selenium-webdriver: ^4.4.0
     ts-jest: ^29.0.1
@@ -1812,7 +1820,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0":
+"chalk@npm:^4.0.0, chalk@npm:^4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -2925,7 +2933,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"got@npm:11.8.5":
+"got@npm:11.8.5, got@npm:^11.8.2":
   version: 11.8.5
   resolution: "got@npm:11.8.5"
   dependencies:
@@ -3091,6 +3099,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"if-async@npm:^3.7.4":
+  version: 3.7.4
+  resolution: "if-async@npm:3.7.4"
+  checksum: d31da1088f39eab602631ea451f8e754f60b731708e8ad04b952edb44fd4237b0750550d3466818098cd062038c7c6d25b1ff15ee0be48f04904cbbda7a8d574
+  languageName: node
+  linkType: hard
+
 "ignore@npm:^5.2.0":
   version: 5.2.0
   resolution: "ignore@npm:5.2.0"
@@ -3158,7 +3173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inherits@npm:2, inherits@npm:^2.0.3, inherits@npm:^2.0.4, inherits@npm:~2.0.3":
+"inherits@npm:2, inherits@npm:^2.0.3, inherits@npm:^2.0.4, inherits@npm:~2.0.1, inherits@npm:~2.0.3":
   version: 2.0.4
   resolution: "inherits@npm:2.0.4"
   checksum: 4a48a733847879d6cf6691860a6b1e3f0f4754176e4d71494c41f3475553768b10f84b5ce1d40fbd0e34e6bfbb864ee35858ad4dd2cf31e02fc4a154b724d7f1
@@ -3319,6 +3334,13 @@ __metadata:
     ip-regex: ^4.1.0
     is-url: ^1.2.4
   checksum: be778a3bd0770799bd6d9b79916d2467a150a111088858dc00f6ea5a52b0e12d3a0a5cfd350d990bdb562552388be406707ee91ac6d40b96371c3a97aca1e579
+  languageName: node
+  linkType: hard
+
+"isarray@npm:0.0.1":
+  version: 0.0.1
+  resolution: "isarray@npm:0.0.1"
+  checksum: 49191f1425681df4a18c2f0f93db3adb85573bcdd6a4482539d98eac9e705d8961317b01175627e860516a2fc45f8f9302db26e5a380a97a520e272e2a40a8d4
   languageName: node
   linkType: hard
 
@@ -4285,6 +4307,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ms-chromium-edge-driver@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "ms-chromium-edge-driver@npm:0.5.1"
+  dependencies:
+    extract-zip: ^2.0.1
+    got: ^11.8.2
+    lodash: ^4.17.21
+    regedit: ^5.0.0
+  checksum: 280e6b5b98867aa67bbd133e5d468c0069be4e19ca79f5352795cd7bc7de839443ad40d929a709cc0be8cff1e0cad3286977b7ec4f0ab4a2e90c0e8856dda3a8
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.1.2":
   version: 2.1.2
   resolution: "ms@npm:2.1.2"
@@ -4762,6 +4796,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"readable-stream@npm:>=1.0.33-1 <1.1.0-0":
+  version: 1.0.34
+  resolution: "readable-stream@npm:1.0.34"
+  dependencies:
+    core-util-is: ~1.0.0
+    inherits: ~2.0.1
+    isarray: 0.0.1
+    string_decoder: ~0.10.x
+  checksum: 85042c537e4f067daa1448a7e257a201070bfec3dd2706abdbd8ebc7f3418eb4d3ed4b8e5af63e2544d69f88ab09c28d5da3c0b77dc76185fddd189a59863b60
+  languageName: node
+  linkType: hard
+
 "readable-stream@npm:^3.4.0, readable-stream@npm:^3.6.0":
   version: 3.6.0
   resolution: "readable-stream@npm:3.6.0"
@@ -4785,6 +4831,18 @@ __metadata:
     string_decoder: "npm:~1.1.1"
     util-deprecate: "npm:~1.0.1"
   checksum: e4920cf7549a60f8aaf694d483a0e61b2a878b969d224f89b3bc788b8d920075132c4b55a7494ee944c7b6a9a0eada28a7f6220d80b0312ece70bbf08eeca755
+  languageName: node
+  linkType: hard
+
+"regedit@npm:^5.0.0":
+  version: 5.1.1
+  resolution: "regedit@npm:5.1.1"
+  dependencies:
+    debug: ^4.1.0
+    if-async: ^3.7.4
+    stream-slicer: 0.0.6
+    through2: ^0.6.3
+  checksum: e661119e61b55c53646fdccde07c0447e27643ef804a5e02ff19222f483a69312ec4c6d755555b3c2ee81e021daf600a5a69f12038f40e875dc829ac2d78edc5
   languageName: node
   linkType: hard
 
@@ -5107,6 +5165,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stream-slicer@npm:0.0.6":
+  version: 0.0.6
+  resolution: "stream-slicer@npm:0.0.6"
+  checksum: 34e3e05968cce4dbbe456cce10dd3c3c7386bb5fdc503f22c5193974a25fbac740dd5cd7d26b1fc90bd9774be8a562ce85e993415d3f4f638cccb4e09b58e717
+  languageName: node
+  linkType: hard
+
 "string-length@npm:^4.0.1":
   version: 4.0.2
   resolution: "string-length@npm:4.0.2"
@@ -5145,6 +5210,13 @@ __metadata:
   dependencies:
     safe-buffer: "npm:~5.2.0"
   checksum: 8417646695a66e73aefc4420eb3b84cc9ffd89572861fe004e6aeb13c7bc00e2f616247505d2dbbef24247c372f70268f594af7126f43548565c68c117bdeb56
+  languageName: node
+  linkType: hard
+
+"string_decoder@npm:~0.10.x":
+  version: 0.10.31
+  resolution: "string_decoder@npm:0.10.31"
+  checksum: fe00f8e303647e5db919948ccb5ce0da7dea209ab54702894dd0c664edd98e5d4df4b80d6fabf7b9e92b237359d21136c95bf068b2f7760b772ca974ba970202
   languageName: node
   linkType: hard
 
@@ -5303,6 +5375,16 @@ __metadata:
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
   checksum: b6937a38c80c7f84d9c11dd75e49d5c44f71d95e810a3250bd1f1797fc7117c57698204adf676b71497acc205d769d65c16ae8fa10afad832ae1322630aef10a
+  languageName: node
+  linkType: hard
+
+"through2@npm:^0.6.3":
+  version: 0.6.5
+  resolution: "through2@npm:0.6.5"
+  dependencies:
+    readable-stream: ">=1.0.33-1 <1.1.0-0"
+    xtend: ">=4.0.0 <4.1.0-0"
+  checksum: dfea228e3134a33219a588448847250897a9994a687807dab52f850fac8b4eb1dc18e3b2c1d3d60dd0d78eb492d2032fdf814ac6576ba5b8d5ba0dade29a3544
   languageName: node
   linkType: hard
 
@@ -5680,6 +5762,13 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 2152cf862cae0693f3775bc688a6afb2e989d19d626d215e70f5fcd8eb55b1c3b0d3a6a4052905ec320e2d7734e20aeedbf9744496d62f15a26ad79cf4cf7dae
+  languageName: node
+  linkType: hard
+
+"xtend@npm:>=4.0.0 <4.1.0-0":
+  version: 4.0.2
+  resolution: "xtend@npm:4.0.2"
+  checksum: ac5dfa738b21f6e7f0dd6e65e1b3155036d68104e67e5d5d1bde74892e327d7e5636a076f625599dc394330a731861e87343ff184b0047fef1360a7ec0a5a36a
   languageName: node
   linkType: hard
 

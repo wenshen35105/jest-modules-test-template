@@ -23,9 +23,18 @@ namespace Config {
       height: number;
     };
     webDriversDir: string | undefined;
+    headless: boolean;
+    chrome: {
+      fixChromeDriverVersion: boolean;
+    };
+    edge: {
+      downloadEdgeDriver: boolean;
+      fixEdgeDriverVersion: boolean;
+    };
   }
 
   interface JestConfig {
+    maxConcurrency: number;
     timeoutGroup: {
       default: string;
       [extras: PropertyKey]: string;

@@ -8,11 +8,22 @@ import type {
   EnvironmentContext,
 } from "@jest/environment";
 import type { Event } from "jest-circus";
+import type { Circus } from "@jest/types";
 import type { PragmaSeleniumConfig } from "../types/pragma";
 
 import { getConfig, getSeleniumConfigForTest } from "../config";
 import { buildWebDriver, setupWebDriver } from "../selenium";
-import { getTestModuleInfoForTest, getTestInfoForTest } from "../utils";
+import {
+  getTestModuleInfoForTest,
+  getTestInfoForTest,
+  resolveRecursiveTestName,
+  formatTestNameAsFileName,
+  resolveModuleRelativePath,
+  MODULE_SRC_DIR,
+  MODULE_OUT_DIR,
+  consoleInfo,
+  consoleError,
+} from "../utils";
 
 /**
  * https://jestjs.io/docs/configuration#testenvironment-string
@@ -70,23 +81,39 @@ class CoreEnvironment extends NodeEnvironment {
     return super.getVmContext() || {};
   }
 
-  async webDriverTakeScreenshot(testName: string) {
+  async webDriverTakeScreenshot(test: Circus.TestEntry) {
     if (!this.global.webDriver) return Promise.reject("WebDriver not found");
 
+    const testName = resolveRecursiveTestName(test);
     try {
       const screenshotPath = path.resolve(
-        this.global.__MODULE_INFO.failedScreenShotDir,
-        testName.replace(/[^a-zA-Z0-9-]/gi, "_").toLowerCase() + ".png"
+        resolveModuleRelativePath(
+          this.global.__MODULE_DIR,
+          this.global.__TEST_INFO.testPath,
+          {
+            src: MODULE_SRC_DIR,
+            dest: MODULE_OUT_DIR,
+          },
+          "_failedTestScreenshot"
+        ),
+        formatTestNameAsFileName(
+          this.global.__TEST_INFO.testPath,
+          testName,
+          ".png"
+        )
       );
       const screenshotBuf64 = await this.global.webDriver.takeScreenshot();
       return new Promise<void>((resolve, reject) => {
         fs.writeFile(screenshotPath, screenshotBuf64, "base64", (err) => {
           if (err) reject(err);
+          consoleInfo(`Screenshot is put to '${screenshotPath}'`);
           resolve();
         });
       });
     } catch (e) {
-      console.error("Failed to save");
+      consoleError(
+        `Failed to save screenshot for '${this.global.__TEST_INFO.testPath}' - '${testName}'`
+      );
     }
   }
 
@@ -95,7 +122,7 @@ class CoreEnvironment extends NodeEnvironment {
       await this.global?.webDriver?.quit();
       Object.defineProperty(this.global, "webDriver", {});
     } catch (e) {
-      console.error("Failed to quit webDriver");
+      consoleError("Failed to quit webDriver");
     }
   }
 
@@ -116,11 +143,9 @@ class CoreEnvironment extends NodeEnvironment {
 
     if (event.name === "test_done") {
       // webdriver take screenshot when erros detected
-      if (
-        (event.test.errors?.length !== 0 || event.test.asyncError) &&
-        this.seleniumConfig
-      ) {
-        await this.webDriverTakeScreenshot(event.test.name);
+      if (event.test.errors?.length && this.seleniumConfig) {
+        consoleInfo("Error noticed, ready to take a screenshot for the test");
+        await this.webDriverTakeScreenshot(event.test);
       }
       // quit webdriver for "test" scope
       if (this.seleniumConfig?.webDriverCycle === "test") {

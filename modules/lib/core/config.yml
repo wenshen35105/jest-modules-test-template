@@ -1,28 +1,51 @@
 jest:
-  # set default timeout for docblock @group
-  # we will pick the largest timeout if a test is in multiple groups
-  # check the supported format form the link below
+  # amount of tests to run in parallel
+  maxConcurrency: 5
+
+  # set default timeout based on docblock "@group"
+  # will pick the largest timeout if a test belongs to multiple groups
+  # check the supported format from the link below
   # https://github.com/jkroso/parse-duration#parsestr-formatms
   timeoutGroup:
-    #  default is >= 5s
+    # default is >= 5s
     default: 5s
 
-    #  e.g. @group selenium
+    # e.g. @group selenium
     selenium: 2mins
 
 selenium:
   # browser type: 'chrome' | 'edge' | 'firefox'
   browser: chrome
 
-  # when webDriver should be restarted? In 'run' | 'test' scope
-  webDriverCycle: test
+  # webDriver should be recycled for: 'run' | 'test'
+  #   run -> webDriver will be recreated for every "describe" block
+  #   test -> webDriver will be recreated for every "test" block
+  #
+  # Note:
+  #   this is a global setting. to specify a "test" scope setting,
+  #   follow the readme example to create a docblock
+  webDriverCycle: run
 
-  # specify the directory for the webDrivers
-  # if you don't want to use the default webDriver
+  # specify where selenium should pick up the webdrivers if you don't want to
+  # use the automatic downloaded webDrivers
   webDriversDir: ""
 
+  # run tests in Browser headless mode
+  headless: false
+
+  chrome:
+    # match the automatic downloaded chromeDriver version to your Chrome browser version
+    fixChromeDriverVersion: false
+
+  edge:
+    # set true to download the edgeDriver if not found from a desginated place
+    downloadEdgeDriver: false
+
+    # match the automatic downloaded edgeDriver version to your Edge browser version
+    resolveEdgeDriverVersion: false
+
   window:
-    # set browser to maxmize by default
+    # set webDriver to maxmize browser by default
     # if equals to true, 'width' and 'height' below won't take effect
     defaultMaxmize: false
 

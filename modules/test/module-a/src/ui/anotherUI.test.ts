@@ -12,5 +12,5 @@ describe("UI sample - 1", () => {
     const inputElement = await webDriver.findElement(By.xpath("input"));
 
     expect(inputElement).not.toBeNull();
-  }, 500000);
+  }, 500000); // add specific timeout for a test
 });

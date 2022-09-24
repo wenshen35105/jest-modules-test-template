@@ -44,6 +44,16 @@ module.exports = {
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "warn",
         "jest/valid-expect": "error",
+        "jest/require-top-level-describe": [
+          "error",
+          { maxNumberOfTopLevelDescribes: 1 },
+        ],
+        "jest/max-nested-describe": [
+          "error",
+          {
+            max: 1,
+          },
+        ],
       },
     },
     {

@@ -3,10 +3,10 @@ import fs from "fs";
 import yaml from "yaml";
 
 import type Config from "../types/config";
-import { TIMEOUT__TEST_DEFAULT } from "../const";
+import { ENV_CONFIG_FILE_LOC, TIMEOUT__TEST_DEFAULT } from "../const";
 
 const CONFIG_FILE_LOC =
-  process.env["CONFIG_FILE_LOC"] ||
+  process.env[ENV_CONFIG_FILE_LOC] ||
   path.resolve(__dirname, "..", "..", "config.yml");
 if (!fs.existsSync(CONFIG_FILE_LOC)) {
   throw `config file '${CONFIG_FILE_LOC}' not exist`;
@@ -47,12 +47,20 @@ export const getAuthConfig = (): Config.AuthConfig => {
 export const getSeleniumConfig = (): Config.SeleniumConfig => {
   const defaultCfg: Config.SeleniumConfig = {
     browser: "chrome",
-    webDriverCycle: "test",
+    webDriverCycle: "run",
     webDriversDir: undefined,
     window: {
       defaultMaxmize: false,
       width: 1920,
       height: 1080,
+    },
+    headless: false,
+    chrome: {
+      fixChromeDriverVersion: false,
+    },
+    edge: {
+      downloadEdgeDriver: false,
+      fixEdgeDriverVersion: false,
     },
   };
 
@@ -61,6 +69,7 @@ export const getSeleniumConfig = (): Config.SeleniumConfig => {
 
 export const getJestConfig = (): Config.JestConfig => {
   const defaultCfg: Config.JestConfig = {
+    maxConcurrency: 5,
     timeoutGroup: {
       default: TIMEOUT__TEST_DEFAULT,
     },

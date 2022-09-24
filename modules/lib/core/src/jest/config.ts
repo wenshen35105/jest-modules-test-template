@@ -1,7 +1,11 @@
 import type { Config } from "jest";
 import path from "path";
 
+import { getJestConfig } from "../config";
+
 export const getConfig = (moduleDir: string): Config => {
+  const jestConfig = getJestConfig();
+
   const rootDir = path.resolve(moduleDir, "..", "..");
   const roots = [moduleDir];
 
@@ -9,6 +13,7 @@ export const getConfig = (moduleDir: string): Config => {
     rootDir,
     roots,
     verbose: true,
+    maxConcurrency: jestConfig.maxConcurrency,
     testEnvironment: "<rootDir>/lib/core/src/jest/environment",
     moduleNameMapper: {
       "^@lib/(.*)$": "<rootDir>/lib/$1",
@@ -25,6 +30,8 @@ export const getConfig = (moduleDir: string): Config => {
       __MODULE_DIR: moduleDir,
     },
     globalSetup: "<rootDir>/lib/core/src/jest/globalSetup.ts",
+    // reporters: ["default", "<rootDir>/lib/core/src/jest/reporter.js"],
+    reporters: ["<rootDir>/lib/core/src/jest/reporter"],
     transform: {
       "\\.ts": [
         "ts-jest",

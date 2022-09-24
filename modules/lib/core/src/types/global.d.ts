@@ -5,8 +5,8 @@ export * from "./modules/chrome-version";
 export interface ModuleRuntimeInfo {
   type: "lib" | "test";
   name: string;
-  logDir: string;
-  failedScreenShotDir: string;
+  srcDir: string;
+  outputDir: string;
 }
 
 export interface TestRuntimeInfo {
@@ -19,7 +19,8 @@ declare global {
   var __MODULE_INFO: ModuleRuntimeInfo;
   var __TEST_INFO: TestRuntimeInfo;
   var config: Config.Config;
-  // only available when using an selenium enviornment
+  // will only available when using the test is part of the "selenium" group
+  // or @selenium is defined in the test docblock
   var webDriver: WebDriver;
 }
 
