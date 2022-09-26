@@ -1,6 +1,6 @@
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
-import fs, { readdirSync } from "fs";
+import fs from "fs";
 import { execa } from "execa";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -37,13 +37,65 @@ export const getPeerDependencies = (type, moduleName) => {
 export const createModule = async (type, moduleName) => {
   const modulePath = resolve(type === "lib" ? libDir : testDir, moduleName);
 
+  let tmpl = "";
   if (type === "lib") {
-    createModuleDir(type, moduleName, "src");
+    // module/src/index.ts
+    tmpl = `
+    export * as api from "./api";
+    export * as pageObj from "./pageObj";
+    `;
+    createModuleFile(type, moduleName, "index.ts", tmpl, "src");
+
+    // module/src/api/index.ts
+    tmpl = `
+    export {}
+    `;
+    createModuleFile(type, moduleName, "index.ts", tmpl, "src", "api");
+
+    // module/src/pageObj/index.ts
+    tmpl = `
+    export * from "./mypageObj";
+    `;
+    createModuleFile(type, moduleName, "index.ts", tmpl, "src", "pageObj");
+
+    // module/src/pageObj/myPageObj.ts
+    tmpl = `
+    import { PageObjBase } from "@lib/types";
+    class MyPageObj implements PageObjBase {}
+    export { MyPageObj }
+    `;
+    createModuleFile(type, moduleName, "mypageObj.ts", tmpl, "src", "pageObj");
   } else {
-    createModuleDir(type, moduleName, "src", "api");
-    createModuleDir(type, moduleName, "src", "ui");
-    createModuleDir(type, moduleName, "src", "types");
-    createModuleDir(type, moduleName, "assets");
+    // moudle/src/api/api.test.ts
+    tmpl = "";
+    createModuleFile(type, moduleName, "api.test.ts", tmpl, "src", "api");
+
+    // module/src/ui/ui.test.ts
+    tmpl = `
+    /**
+     * @group selenium
+     */
+    import { By } from "selenium-webdriver";
+
+    describe("My Test", () => {
+      test("page", async () => {
+        await webDriver.get("https://ibm.com");
+        await expect(webDriver).not.toHaveElementBy(
+          By.xpath("//span[contains(text(), 'IBM')]")
+        );
+      });
+    });
+    `;
+    createModuleFile(type, moduleName, "ui.test.ts", tmpl, "src", "ui");
+
+    // module/src/types/global.d.ts
+    tmpl = `
+    import "@lib/core/src/types/lib";
+    `;
+    createModuleFile(type, moduleName, "lib.d.ts", tmpl, "src", "types");
+
+    // module/assets/.gitkeep
+    createModuleFile(type, moduleName, ".gitkeep", "", "assets");
   }
 
   createTsConfig(type, moduleName);
@@ -56,13 +108,23 @@ export const createModule = async (type, moduleName) => {
   await syncProjectCodeWorkspace();
 };
 
-export const createModuleDir = (type, moduleName, ...path) => {
+export const createModuleDir = (type, moduleName, ...pathToFolder) => {
   const modulePath = resolve(type === "lib" ? libDir : testDir, moduleName);
-  const targetPath = resolve(modulePath, ...path);
+  const targetPath = resolve(modulePath, ...pathToFolder);
   if (!fs.existsSync(targetPath)) fs.mkdirSync(targetPath, { recursive: true });
-  if (readdirSync(targetPath).length === 0) {
-    fs.writeFileSync(resolve(targetPath, ".gitkeep"), "", "utf-8");
-  }
+};
+
+export const createModuleFile = (
+  type,
+  moduleName,
+  fileName = ".gitkeep",
+  fileContent = "",
+  ...pathToFolder
+) => {
+  const modulePath = resolve(type === "lib" ? libDir : testDir, moduleName);
+  const targetPath = resolve(modulePath, ...pathToFolder, fileName);
+  createModuleDir(type, moduleName, ...pathToFolder);
+  fs.writeFileSync(targetPath, fileContent, "utf-8");
 };
 
 export const createTsConfig = (type, moduleName) => {
@@ -81,6 +143,13 @@ export const createTsConfig = (type, moduleName) => {
     tsConfigTmpl.references = [
       {
         path: "../../lib/core",
+      },
+    ];
+    tsConfigTmpl.include.push("jest.config.ts");
+  } else if (type === "lib") {
+    tsConfigTmpl.references = [
+      {
+        path: "../types",
       },
     ];
   }
@@ -108,6 +177,10 @@ export const createPackageJson = (type, moduleName) => {
     packageJsonTmpl.scripts["test"] = "yarn core:test";
     packageJsonTmpl.dependencies = getPeerDependencies("lib", "core");
     packageJsonTmpl.dependencies["@lib/core"] = "workspace:^";
+  } else if (type === "lib") {
+    packageJsonTmpl.main = "src/index";
+    packageJsonTmpl.dependencies = packageJsonTmpl.dependencies ?? {};
+    packageJsonTmpl.dependencies["@lib/types"] = "workspace:^";
   }
 
   fs.writeFileSync(
@@ -118,15 +191,14 @@ export const createPackageJson = (type, moduleName) => {
 };
 
 export const createJestConfig = (type, moduleName) => {
+  if (type === "lib") return;
   console.log(`Creating jest.config for '@${type}/${moduleName}'`);
 
-  if (type === "lib") return;
   const modulePath = resolve(testDir, moduleName);
   const tmpl = `
-  import { getConfig } from "@lib/core/src/jest";
-  import type { Config } from "jest";
+  import { jest, types } from "@lib/core";
 
-  export default (): Config => getConfig(__dirname);
+  export default (): types.jest.Config => jest.getConfig(__dirname);
   `;
   fs.writeFileSync(resolve(modulePath, "jest.config.ts"), tmpl, "utf-8");
 };
@@ -154,6 +226,7 @@ export const syncProjectCodeWorkspace = async () => {
   // writing back
   fs.writeFileSync(file, JSON.stringify(json), "utf-8");
   // call prettier
+  console.log("Calling yarn...");
   await execa(
     "yarn",
     ["prettier", file, "--cache", "--write", "--parser", "json"],

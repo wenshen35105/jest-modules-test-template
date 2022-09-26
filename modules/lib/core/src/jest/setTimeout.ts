@@ -2,7 +2,7 @@ import { jest } from "@jest/globals";
 import parseDuration from "parse-duration";
 import { TIMEOUT__TEST_DEFAULT } from "../const";
 import { getJestConfig } from "../config";
-import { consoleError, consoleInfo } from "../utils";
+import { log } from "@lib/misc";
 
 const jestConfig = getJestConfig();
 const timeoutGroup = jestConfig.timeoutGroup;
@@ -22,14 +22,14 @@ globalThis.__TEST_INFO.groups.forEach((group) => {
         timeoutPlain = timeoutGroup[group];
       }
     } catch (err) {
-      consoleError(`Failed to parse timeout for '${group}'`);
-      consoleError("Please check for the configuration");
+      log.error(`Failed to parse timeout for '${group}'`);
+      log.error("Please check for the configuration");
     }
   }
 });
 
 if (defaultTimeout !== timeout) {
-  consoleInfo(
+  log.info(
     `Test timeout is set to '${timeoutPlain}' for '${globalThis.__TEST_INFO.testPath}'`
   );
 }

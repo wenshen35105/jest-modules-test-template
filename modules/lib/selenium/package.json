@@ -1,0 +1,20 @@
+{
+  "name": "@lib/selenium",
+  "version": "0.0.1",
+  "private": true,
+  "main": "src/index",
+  "scripts": {
+    "validate": "yarn root:validate"
+  },
+  "dependencies": {
+    "@lib/misc": "workspace:^",
+    "@lib/types": "workspace:^",
+    "@testim/chrome-version": "^1.1.3",
+    "@types/chromedriver": "^81.0.1",
+    "@types/selenium-webdriver": "^4.1.5",
+    "chromedriver": "^105.0.1",
+    "geckodriver": "^3.0.2",
+    "ms-chromium-edge-driver": "^0.5.1",
+    "selenium-webdriver": "^4.4.0"
+  }
+}

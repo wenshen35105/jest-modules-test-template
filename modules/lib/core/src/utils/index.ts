@@ -1,4 +1,3 @@
 export * from "./docblock";
-export * from "./module";
+export * from "./testModule";
 export * from "./test";
-export * from "./log";

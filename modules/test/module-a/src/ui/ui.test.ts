@@ -11,7 +11,7 @@ describe("UI sample", () => {
   });
 
   test("page", async () => {
-    await webDriver.get(config.platform.url.toString());
+    await webDriver.get(__FRAMEWORK_CONFIG.platform.url.toString());
     expect(1).toEqual(1);
   });
   test("page1", async () => {

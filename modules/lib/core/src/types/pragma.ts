@@ -1,7 +1,7 @@
-import type Config from "./config";
+import type { FrameworkConfig } from "@lib/types";
 
 export type Pragmas = Record<string, string | Array<string>>;
 
 export interface PragmaSeleniumConfig {
-  webDriverCycle: Config.WebDriverCycle;
+  webDriverCycle: FrameworkConfig.WebDriverCycle;
 }

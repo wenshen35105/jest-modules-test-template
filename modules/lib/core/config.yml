@@ -38,16 +38,16 @@ selenium:
     fixChromeDriverVersion: false
 
   edge:
-    # set true to download the edgeDriver if not found from a desginated place
+    # set true to download the edgeDriver if not found from a designated place
     downloadEdgeDriver: false
 
     # match the automatic downloaded edgeDriver version to your Edge browser version
     resolveEdgeDriverVersion: false
 
   window:
-    # set webDriver to maxmize browser by default
+    # set webDriver to maximize browser by default
     # if equals to true, 'width' and 'height' below won't take effect
-    defaultMaxmize: false
+    defaultMaximize: false
 
     # default browser width
     width: 1920

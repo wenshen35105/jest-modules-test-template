@@ -1,24 +1,24 @@
-namespace Config {
-  interface PlatformConfig {
+export namespace FrameworkConfig {
+  export interface PlatformConfig {
     host: string;
     schema: string;
     port: number;
     url: URL;
   }
-  interface AuthConfig {
+  export interface AuthConfig {
     host: string;
     schema: string;
     port: number;
     url: URL;
   }
 
-  type WebDriverCycle = "run" | "test";
+  export type WebDriverCycle = "run" | "test";
 
-  interface SeleniumConfig {
+  export interface SeleniumConfig {
     browser: "chrome" | "edge" | "firefox";
     webDriverCycle: WebDriverCycle;
     window: {
-      defaultMaxmize: boolean;
+      defaultMaximize: boolean;
       width: number;
       height: number;
     };
@@ -33,7 +33,7 @@ namespace Config {
     };
   }
 
-  interface JestConfig {
+  export interface JestConfig {
     maxConcurrency: number;
     timeoutGroup: {
       default: string;
@@ -41,21 +41,10 @@ namespace Config {
     };
   }
 
-  interface Config {
+  export interface All {
     platform: PlatformConfig;
     auth: AuthConfig;
     selenium: SeleniumConfig;
     jest: JestConfig;
   }
-
-  export {
-    PlatformConfig,
-    AuthConfig,
-    SeleniumConfig,
-    WebDriverCycle,
-    JestConfig,
-    Config,
-  };
 }
-
-export default Config;

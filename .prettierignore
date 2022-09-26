@@ -1,3 +1,7 @@
 dist
 node_modules
 .yarn
+
+# core reporter
+modules/lib/core/src/jest/reporter/template/*.css
+modules/test/*/out/report.html

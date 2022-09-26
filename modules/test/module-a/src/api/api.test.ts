@@ -1,8 +1,8 @@
-import { getAnimal } from "@lib/module-a/src/api";
+import { api } from "@lib/module-a";
 
 describe("Test API", () => {
   test("get", async () => {
-    const res = await getAnimal(config.platform.url);
+    const res = await api.getAnimal(__FRAMEWORK_CONFIG.platform.url);
     expect(res.status).toEqual(404);
   });
 });

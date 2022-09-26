@@ -1,8 +1,11 @@
-import { getCar } from "@lib/module-b/src/api";
+/**
+ * @group rest
+ */
+import { api } from "@lib/module-b";
 
 describe("Test module-b", () => {
   test("dummy", async () => {
-    const res = await getCar(config.auth.url);
+    const res = await api.getCar(__FRAMEWORK_CONFIG.auth.url);
     expect(res.status).toEqual(200);
   });
 });

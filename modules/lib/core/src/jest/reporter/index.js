@@ -1,57 +1,101 @@
-const fs = require("fs");
+const { BaseReporter } = require("@jest/reporters");
+const { parse } = require("jest-docblock");
 const path = require("path");
-const {
-  resolveModuleRelativePath,
-  formatTestNameAsFileName,
-  MODULE_SRC_DIR,
-  MODULE_OUT_DIR,
-  consoleError,
-} = require("../../utils");
+const fs = require("fs");
 
-class CoreReporter {
-  onRunComplete(_testContexts, _results) {
-    console.log("Triggered");
-    // return Promise.resolve();
+const genReportHTMLString = require("./template");
+
+// copy from @lib/core/src/const.ts
+const PRAGMA__GROUP = "group";
+
+// copy from @lib/core/src/utils/docblock.ts
+const getGroupFromPragmas = (testPath) => {
+  const pragmas = parse(fs.readFileSync(testPath, "utf8"));
+  if (pragmas[PRAGMA__GROUP]) {
+    const group = pragmas[PRAGMA__GROUP];
+    if (Array.isArray(group)) return group;
+    return [group];
   }
+  return [];
+};
 
-  onRunStart(_results, _options) {
-    return Promise.resolve();
-  }
+class CoreReporter extends BaseReporter {
+  constructor(globalConfig, context) {
+    super();
+    this.globalConfig = globalConfig;
+    this.context = context;
 
-  onTestStart(test) {
-    const logFileBasePath = resolveModuleRelativePath(
-      test.context.config.globals.__MODULE_DIR,
-      test.path,
-      {
-        src: MODULE_SRC_DIR,
-        dest: MODULE_OUT_DIR,
-      }
-    );
-    const logFileName = formatTestNameAsFileName(test.path, undefined, ".log");
-    this.logWriteStream = fs.createWriteStream(
-      path.resolve(logFileBasePath, logFileName)
-    );
-  }
+    this.catalogStat = [];
+    this.testData = [];
 
-  onTestResult(test, result, _aggregatedResults) {
-    if (result.console) {
-      this.logWriteStream?.write(
-        result.console.reduce((prev, curr) => prev + JSON.stringify(curr), ""),
-        (err) => {
-          if (err) {
-            consoleError(`Failed to write log for '${test.path}'`);
-            consoleError(err);
-          }
-        }
-      );
+    if (
+      !this.context["outputDir"] ||
+      !fs.existsSync(this.context["outputDir"])
+    ) {
+      throw new Error("require report option: 'outputDir' doesnt exist");
     }
-    this.logWriteStream?.close();
   }
 
-  getLastError() {
-    // if (this._shouldFail) {
-    //   return new Error("Custom error reported!");
-    // }
+  onRunComplete(_testContexts, aggregatedResult) {
+    this.catalogStat.push({
+      type: "all",
+      test: {
+        total: aggregatedResult.numTotalTests,
+        failed: aggregatedResult.numFailedTests,
+        passed: aggregatedResult.numPassedTests,
+        pending: aggregatedResult.numPendingTests,
+      },
+    });
+
+    this.catalogStat.push({
+      type: "suite",
+      test: {
+        total: aggregatedResult.numTotalTestSuites,
+        failed: aggregatedResult.numFailedTestSuites,
+        passed: aggregatedResult.numPassedTestSuites,
+        pending: aggregatedResult.numPendingTests,
+      },
+    });
+
+    const catalogGroupStat = {};
+
+    aggregatedResult.testResults.forEach((suiteResult) => {
+      const belongingGroups = getGroupFromPragmas(suiteResult.testFilePath);
+
+      belongingGroups.forEach((belongingGroup) => {
+        catalogGroupStat[belongingGroup] = {
+          failed:
+            (catalogGroupStat[belongingGroup]?.failed || 0) +
+            suiteResult.numFailingTests,
+          passed:
+            (catalogGroupStat[belongingGroup]?.passed || 0) +
+            suiteResult.numPassingTests,
+          pending:
+            (catalogGroupStat[belongingGroup]?.pending || 0) +
+            suiteResult.numPendingTests,
+          total:
+            (catalogGroupStat[belongingGroup]?.total || 0) +
+            (suiteResult.numFailingTests +
+              suiteResult.numPassingTests +
+              suiteResult.numPendingTests),
+        };
+      });
+    });
+
+    Object.keys(catalogGroupStat).forEach((groupName) => {
+      this.catalogStat.push({
+        type: "group",
+        name: groupName,
+        test: catalogGroupStat[groupName],
+      });
+    });
+
+    const htmlString = genReportHTMLString(this.catalogStat);
+    fs.writeFileSync(
+      path.resolve(this.context["outputDir"], "report.html"),
+      htmlString,
+      "utf-8"
+    );
   }
 }
 

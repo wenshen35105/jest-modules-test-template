@@ -1,0 +1,28 @@
+.core--card {
+  min-height: 15rem;
+  padding: 1.5rem 2rem;
+}
+.core--card-content {
+  padding: 2.5rem 2rem;
+  background: #e5e5e5;
+  color: #000;
+}
+
+.core--card-title {
+  padding-bottom: 15px;
+  text-transform: capitalize;
+}
+
+.core--card-data-wrapper {
+  padding-bottom: 10px;
+}
+
+.core--card-data-title {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.core--card-data-data {
+  font-size: 0.8rem;
+  text-align: right;
+}

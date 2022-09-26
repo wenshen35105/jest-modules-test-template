@@ -1,8 +1,9 @@
 import type { Circus } from "@jest/types";
+import path from "path";
 
 import { getTestPragmas, getGroupFromPragmas } from "./docblock";
-import { TestRuntimeInfo } from "../types/global";
-import path from "path";
+
+import type { TestRuntimeInfo } from "../types/global";
 
 export const getTestInfoForTest = (testPath: string): TestRuntimeInfo => {
   return {

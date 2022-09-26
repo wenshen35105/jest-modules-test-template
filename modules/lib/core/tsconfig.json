@@ -1,9 +1,20 @@
 {
   "extends": "../../../tsconfig.json",
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../misc/src/log.ts"],
   "compilerOptions": {
     "types": ["node"],
     "outDir": "../../../dist/lib/core",
     "rootDir": "."
-  }
+  },
+  "references": [
+    {
+      "path": "../types"
+    },
+    {
+      "path": "../selenium"
+    },
+    {
+      "path": "../misc"
+    }
+  ]
 }

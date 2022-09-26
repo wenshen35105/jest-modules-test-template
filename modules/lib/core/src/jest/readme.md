@@ -1,4 +1,4 @@
-### Jest Runtime Lifecycle:
+# Jest Runtime Lifecycle
 
 1. globalSetup.ts (Run scope)
    1. Initialize test module dependencies (e.g. setup folders)
@@ -8,7 +8,7 @@
 3. environment.ts (Test scope)
    1. inject global variables
    2. webdriver
-      1. create/destory
+      1. create/destroy
       2. take screenshot
 4. setTimeout (Test scope)
    1. Set timeout for each test file

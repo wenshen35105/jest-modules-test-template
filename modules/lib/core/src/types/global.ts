@@ -1,12 +1,14 @@
-import type Config from "./config";
-import type { WebDriver } from "@types/selenium-webdriver";
-export * from "./modules/chrome-version";
+/* eslint-disable no-var */
+import type { FrameworkConfig } from "@lib/types";
+import type { WebDriver } from "selenium-webdriver";
 
-export interface ModuleRuntimeInfo {
-  type: "lib" | "test";
+export interface TestModuleRuntimeInfo {
+  type: "test";
   name: string;
+  baseDir: string;
   srcDir: string;
   outputDir: string;
+  assetDir: string;
 }
 
 export interface TestRuntimeInfo {
@@ -15,13 +17,10 @@ export interface TestRuntimeInfo {
 }
 
 declare global {
-  var __MODULE_DIR: string;
-  var __MODULE_INFO: ModuleRuntimeInfo;
+  var __MODULE_INFO: TestModuleRuntimeInfo;
   var __TEST_INFO: TestRuntimeInfo;
-  var config: Config.Config;
+  var __FRAMEWORK_CONFIG: FrameworkConfig.All;
   // will only available when using the test is part of the "selenium" group
   // or @selenium is defined in the test docblock
   var webDriver: WebDriver;
 }
-
-export {};

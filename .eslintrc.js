@@ -29,6 +29,7 @@ module.exports = {
       },
       rules: {
         "@typescript-eslint/no-unnecessary-type-assertion": "off",
+        "@typescript-eslint/no-namespace": "off",
       },
     },
     {

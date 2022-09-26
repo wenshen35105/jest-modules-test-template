@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import yaml from "yaml";
 
-import type Config from "../types/config";
+import type { FrameworkConfig } from "@lib/types";
 import { ENV_CONFIG_FILE_LOC, TIMEOUT__TEST_DEFAULT } from "../const";
 
 const CONFIG_FILE_LOC =
@@ -12,12 +12,12 @@ if (!fs.existsSync(CONFIG_FILE_LOC)) {
   throw `config file '${CONFIG_FILE_LOC}' not exist`;
 }
 
-const config: Config.Config = yaml.parse(
+const config: FrameworkConfig.All = yaml.parse(
   fs.readFileSync(CONFIG_FILE_LOC, "utf-8")
-) as Config.Config;
+) as FrameworkConfig.All;
 
-export const getPlatformConfig = (): Config.PlatformConfig => {
-  const defaultCfg: Omit<Config.AuthConfig, "url"> = {
+export const getPlatformConfig = (): FrameworkConfig.PlatformConfig => {
+  const defaultCfg: Omit<FrameworkConfig.AuthConfig, "url"> = {
     host: "localhost",
     port: 8080,
     schema: "https",
@@ -30,8 +30,8 @@ export const getPlatformConfig = (): Config.PlatformConfig => {
   return cfg;
 };
 
-export const getAuthConfig = (): Config.AuthConfig => {
-  const defaultCfg: Omit<Config.AuthConfig, "url"> = {
+export const getAuthConfig = (): FrameworkConfig.AuthConfig => {
+  const defaultCfg: Omit<FrameworkConfig.AuthConfig, "url"> = {
     host: "localhost",
     port: 8080,
     schema: "https",
@@ -44,13 +44,13 @@ export const getAuthConfig = (): Config.AuthConfig => {
   return cfg;
 };
 
-export const getSeleniumConfig = (): Config.SeleniumConfig => {
-  const defaultCfg: Config.SeleniumConfig = {
+export const getSeleniumConfig = (): FrameworkConfig.SeleniumConfig => {
+  const defaultCfg: FrameworkConfig.SeleniumConfig = {
     browser: "chrome",
     webDriverCycle: "run",
     webDriversDir: undefined,
     window: {
-      defaultMaxmize: false,
+      defaultMaximize: false,
       width: 1920,
       height: 1080,
     },
@@ -67,8 +67,8 @@ export const getSeleniumConfig = (): Config.SeleniumConfig => {
   return { ...defaultCfg, ...config.selenium };
 };
 
-export const getJestConfig = (): Config.JestConfig => {
-  const defaultCfg: Config.JestConfig = {
+export const getJestConfig = (): FrameworkConfig.JestConfig => {
+  const defaultCfg: FrameworkConfig.JestConfig = {
     maxConcurrency: 5,
     timeoutGroup: {
       default: TIMEOUT__TEST_DEFAULT,
@@ -77,7 +77,7 @@ export const getJestConfig = (): Config.JestConfig => {
   return { ...defaultCfg, ...config.jest };
 };
 
-export const getConfig = (): Config.Config => ({
+export const getConfig = (): FrameworkConfig.All => ({
   jest: getJestConfig(),
   selenium: getSeleniumConfig(),
   platform: getPlatformConfig(),

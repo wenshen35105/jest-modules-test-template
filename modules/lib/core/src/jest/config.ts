@@ -1,7 +1,10 @@
-import type { Config } from "jest";
 import path from "path";
 
+import { ENV_MODULE_DIR, ENV_JEST_VSC_RUN } from "../const";
 import { getJestConfig } from "../config";
+import { getModuleDirs } from "../utils";
+
+import type { Config } from "jest";
 
 export const getConfig = (moduleDir: string): Config => {
   const jestConfig = getJestConfig();
@@ -9,10 +12,16 @@ export const getConfig = (moduleDir: string): Config => {
   const rootDir = path.resolve(moduleDir, "..", "..");
   const roots = [moduleDir];
 
+  // put module dir as env var
+  process.env[ENV_MODULE_DIR] = moduleDir;
+
+  const isVscRun = process.env[ENV_JEST_VSC_RUN] !== undefined;
+
   const config: Config = {
     rootDir,
     roots,
-    verbose: true,
+    cache: false,
+    verbose: isVscRun,
     maxConcurrency: jestConfig.maxConcurrency,
     testEnvironment: "<rootDir>/lib/core/src/jest/environment",
     moduleNameMapper: {
@@ -25,22 +34,28 @@ export const getConfig = (moduleDir: string): Config => {
     },
     runner: "<rootDir>/lib/core/src/jest/runner",
     testRunner: require.resolve("jest-circus/runner"),
-    setupFilesAfterEnv: ["<rootDir>/lib/core/src/jest/setTimeout.ts"],
-    globals: {
-      __MODULE_DIR: moduleDir,
-    },
+    setupFilesAfterEnv: [
+      "<rootDir>/lib/core/src/jest/setExpect.ts",
+      "<rootDir>/lib/core/src/jest/setTimeout.ts",
+    ],
     globalSetup: "<rootDir>/lib/core/src/jest/globalSetup.ts",
-    // reporters: ["default", "<rootDir>/lib/core/src/jest/reporter.js"],
-    reporters: ["<rootDir>/lib/core/src/jest/reporter"],
+    reporters: ["default"],
     transform: {
       "\\.ts": [
-        "ts-jest",
+        require.resolve("ts-jest"),
         {
           tsconfig: path.resolve(moduleDir, "tsconfig.json"),
         },
       ],
     },
   };
+
+  if (!isVscRun) {
+    config.reporters?.push([
+      "<rootDir>/lib/core/src/jest/reporter",
+      { outputDir: getModuleDirs().outputDir },
+    ]);
+  }
 
   return config;
 };

@@ -23,7 +23,12 @@
       "@test/*": ["modules/test/*"]
     }
   },
-  "exclude": ["node_modules", "./dist/**/*", "./scripts/**/*"],
+  "exclude": [
+    "node_modules",
+    "./dist/**/*",
+    "./scripts/**/*",
+    "./modules/lib/core/src/jest/reporter/**/*"
+  ],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }

@@ -7,10 +7,12 @@
     "test": "yarn workspaces foreach -ivpt --include '@test/*' run test",
     "validate": "yarn workspaces foreach -Aivpt run validate",
     "root:validate": "cd $INIT_CWD && tsc --build --pretty .",
+    "lint:check": "eslint .",
     "lint:prettier:check": "prettier . --cache --check",
     "lint:prettier:fix": "prettier . --cache --write",
     "module:create": "node scripts/module-create.mjs",
-    "workspace:sync": "node scripts/workspace-config-sync.mjs"
+    "workspace:sync": "node scripts/workspace-config-sync.mjs",
+    "yarn:pkg-doctor": "yarn dlx @yarnpkg/doctor"
   },
   "workspaces": [
     "modules/lib/**",

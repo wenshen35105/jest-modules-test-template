@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.json",
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "outDir": "../../../dist/lib/selenium",
+    "rootDir": "."
+  },
+  "references": [
+    {
+      "path": "../misc"
+    },
+    {
+      "path": "../types"
+    }
+  ]
+}

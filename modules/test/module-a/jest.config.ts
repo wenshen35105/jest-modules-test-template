@@ -1,4 +1,3 @@
-import { getConfig } from "@lib/core/src/jest";
-import type { Config } from "@lib/core/src/types/jest";
+import { jest, types } from "@lib/core";
 
-export default (): Config => getConfig(__dirname);
+export default (): types.jest.Config => jest.getConfig(__dirname);
