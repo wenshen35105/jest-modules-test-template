@@ -10,7 +10,7 @@ const parseDurationForParam = (duration: number | string): number => {
       duration = parseDuration(duration);
     } catch (e) {
       log.error(`invalid duration '${duration}'. Fall back to default timeout`);
-      duration = 2000;
+      duration = EXPLICT_WAIT_TIMEOUT;
     }
   }
   return duration;

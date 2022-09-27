@@ -116,10 +116,26 @@ class CoreEnvironment extends NodeEnvironment {
     }
   }
 
+  webDriverExitListener(signal: NodeJS.Signals | number) {
+    if (!this.global?.webDriver?.quit) return;
+    log.info(`process exit - ${signal} received. quiting webdriver`);
+    this.quitWebDriver().catch((err) => {
+      log.error(
+        "'webDriverSignalListener' failed to quit webDriver",
+        signal,
+        err
+      );
+    });
+  }
+
   async quitWebDriver(): Promise<void> {
     try {
       await this.global?.webDriver?.quit();
       Object.defineProperty(this.global, "webDriver", {});
+      process.removeListener("exit", this.webDriverExitListener.bind(this));
+      process.removeListener("SIGINT", this.webDriverExitListener.bind(this));
+      process.removeListener("SIGTERM", this.webDriverExitListener.bind(this));
+      log.info("quit webDriver done");
     } catch (e) {
       log.error("Failed to quit webDriver");
     }
@@ -128,6 +144,10 @@ class CoreEnvironment extends NodeEnvironment {
   async createWebDriver(): Promise<void> {
     if (!this.global.webDriver) {
       this.global.webDriver = await buildWebDriver(getConfig().selenium);
+      // lets remove webdriver if we cut off the test in flight
+      process.addListener("exit", this.webDriverExitListener.bind(this));
+      process.addListener("SIGINT", this.webDriverExitListener.bind(this));
+      process.addListener("SIGTERM", this.webDriverExitListener.bind(this));
       await setupWebDriver(getConfig().selenium, this.global.webDriver);
     }
   }

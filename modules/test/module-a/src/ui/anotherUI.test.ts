@@ -6,14 +6,12 @@ import { By } from "selenium-webdriver";
 
 describe("UI sample - 1", () => {
   test("page2", async () => {
-    // await new Promise((resolve) => setTimeout(resolve, 10000));
     await webDriver.get("https://apple.ca");
-    // await webDriver.get(config.platform.url.toString());
-    // const inputElement = await webDriver.findElement(By.xpath("input"));
 
-    await expect(webDriver).toHaveElementBy(
-      By.xpath("//span[contains(text(), 'Mac')]")
-    );
-    await expect(webDriver).toMatchSeleniumSnapshot();
+    const locator = By.xpath("(//a[@class='unit-link'])[1]");
+    await expect(webDriver).toHaveElementBy(locator);
+    const element = webDriver.findElement(locator);
+
+    await expect(element).toMatchSeleniumSnapshot();
   }, 500000); // add specific timeout for a test
 });
