@@ -1,3 +1,4 @@
+/* eslint-disable no-control-regex */
 export const TIMEOUT__TEST_DEFAULT = "5s";
 
 export const PRAGMA__GROUP = "group";
@@ -12,4 +13,6 @@ export const MODULE_SRC_DIR = "src";
 export const MODULE_OUT_DIR = "output";
 export const MODULE_ASSET_DIR = "asset";
 
-export const TEST_FAILED_DIR = "__failedTestScreenshot__";
+export const TEST_FAILED_SCREENSHOT_DIR = "__failedTestScreenshot__";
+export const TEST_ANSI_REGEX =
+  /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
