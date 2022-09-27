@@ -1,8 +1,8 @@
-import { WebDriver, WebElement, By, until } from "selenium-webdriver";
+import { WebDriver, WebElement, By } from "selenium-webdriver";
 import parseDuration from "parse-duration";
 import { log } from "@lib/misc/src";
 
-import { FLUENT_WAIT_TIMEOUT, FLUENT_WAIT_POLLING } from "./const";
+import { EXPLICT_WAIT_TIMEOUT } from "./const";
 
 const parseDurationForParam = (duration: number | string): number => {
   if (typeof duration === "string") {
@@ -16,12 +16,20 @@ const parseDurationForParam = (duration: number | string): number => {
   return duration;
 };
 
+const isWebDriver = (given: WebDriver | WebElement): boolean => {
+  if ((given as WebElement).getDriver) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 const parseWebDriver = (given: WebDriver | WebElement) => {
   let webDriver: WebDriver;
-  if (given instanceof WebDriver) {
-    webDriver = given;
+  if (isWebDriver(given)) {
+    webDriver = given as WebDriver;
   } else {
-    webDriver = given.getDriver();
+    webDriver = (given as WebElement).getDriver();
   }
   return webDriver;
 };
@@ -29,18 +37,13 @@ const parseWebDriver = (given: WebDriver | WebElement) => {
 export const waitAndFindElementBy = async (
   given: WebDriver | WebElement,
   locator: By,
-  timeout: number | string = FLUENT_WAIT_TIMEOUT,
-  polling: number | string = FLUENT_WAIT_POLLING
+  timeout: number | string = EXPLICT_WAIT_TIMEOUT
 ) => {
   const webDriver = parseWebDriver(given);
   timeout = parseDurationForParam(timeout);
-  polling = parseDurationForParam(polling);
 
-  const webelement = await webDriver.wait(
-    until.elementLocated(locator),
-    timeout,
-    `timeout for waiting element '${locator.toString()}' for ${timeout}`,
-    polling
-  );
+  const webelement = await webDriver.wait(() => {
+    return webDriver.findElement(locator);
+  }, timeout);
   return webelement;
 };

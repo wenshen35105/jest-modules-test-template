@@ -1,2 +1,1 @@
-export const FLUENT_WAIT_TIMEOUT = 4000;
-export const FLUENT_WAIT_POLLING = 500;
+export const EXPLICT_WAIT_TIMEOUT = 4000;
