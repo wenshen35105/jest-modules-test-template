@@ -103,21 +103,25 @@ If one only needs to ship tests from module-a, only the module-a and the lib mod
 └─ tsconfig.json
 ```
 
+## Test
+
 ### Jest
 
 Each test module has a Jest config file which means they are independent to each other. By default configurations for each test module is genearted from the @lib/core module (Check [config.ts](./modules/lib/core/src/jest/config.ts)).
 
-## Test
-
 ### Timeout
 
-Default test timeout is increased to 8s for non-UI test and 2mins for UI tests.
+Default test timeout is increased to 8s for non-UI tests and 2mins for UI tests. You can customize timeout within a test or by using the group notion.
 
-### Test Group
+### Group
 
-Test group is supported by adding a jsdoc from the top of the test file. Check the command above for filtering tests by groups.
+Test group is supported by adding a docblock from the top of the test file. Check the command above for filtering tests by groups. You can also create a default timeout for a group of tests by adding a new row into the section .jest.timeoutGroup in [@lib/core/config.yml](./modules/lib/core/config.yml)
 
-```
+A HTML report (experimental) will be generated for helping to analyze the failures based on group.
+
+Below is how you will specify a group for a test.
+
+```ts
 /**
 * @group selenium
 */
@@ -127,9 +131,13 @@ Test group is supported by adding a jsdoc from the top of the test file. Check t
 
 ### Selenium
 
-Selenium utility is integrated with the "@lib/core" module by default. Specify a "selenium" group or use the "@selenium" tag as the example below for injecting `webDriver` into the test. You can control when webDriver will be re-created by changing the "webDriverCycle" value. When it's equalled to "test" that means `webDriver` will be re-created for each Jest "test" block and vice verse.
+Selenium utility is integrated with the "@lib/selenium" module by default. Specify a "selenium" group or use the "@selenium" tag as the example below for injecting `webDriver` into the test. You can control when webDriver should be re-created for a test by changing the "webDriverCycle" value. When the value equals "test", it means `webDriver` will be re-created for each "test" block and vice verse. Check the script snippet below.
 
-```
+Testers usually don't need to download the webDriver binaries manually as they are installed when doing the yarn installation. Testers are still allowed to pick up different webDriver binaries by changing the .selenium.webDriversDir from the config.
+
+The repository extends the Jest.expect with some utilities from webDriver. Check the script snippet below.
+
+```js
 /**
 * @group selenium
 *
@@ -139,7 +147,23 @@ Selenium utility is integrated with the "@lib/core" module by default. Specify a
 */
 
 <code goes here>
+...
+
+// Expect the webDriver/webElement to have a child element
+expect(WebDriver | WebElement).toHaveElementBy(By)
+
+// This is based on: https://github.com/americanexpress/jest-image-snapshot
+// but the image is resized and compressed for allowed to be uploaded to Github
+//
+// It takes a screenshot as a Jest snapshot by using webDriver/webElement
+// For the next run if the screenshot output is different, the expect function 
+// will raise a failure
+expect(WebDriver | WebElement).toMatchSeleniumSnapshot();
 ```
+
+### More Capabilities
+
+There're more configuration to be explored from [@lib/core/config.yml](./modules/lib/core/config.yml) for assisting the testing experience.
 
 ## Best practices 💦
 
