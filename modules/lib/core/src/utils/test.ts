@@ -4,7 +4,7 @@ import os from "os";
 import { kebabCase, toString } from "lodash";
 
 import { getTestPragmas, getGroupFromPragmas } from "./docblock";
-import { TEST_ANSI_REGEX } from "../const";
+import { TEST_ANSI_REMOVE_REGEX } from "../const";
 import { resolveOutPathFromTestPath } from "./testModule";
 import { log } from "@lib/misc";
 
@@ -57,7 +57,7 @@ export const saveTestFailureToLog = async (
   }
 
   for (const error of test.errors) {
-    const errorTxt = toString(error).replace(TEST_ANSI_REGEX, "");
+    const errorTxt = toString(error).replace(TEST_ANSI_REMOVE_REGEX, "");
     const logStream = fs.createWriteStream(logPath, "utf-8");
     try {
       for (const txt of errorTxt.split(os.EOL)) {
