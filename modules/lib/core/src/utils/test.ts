@@ -1,5 +1,7 @@
-import type { Circus } from "@jest/types";
 import path from "path";
+import { kebabCase } from "lodash";
+
+import type { Circus } from "@jest/types";
 
 import { getTestPragmas, getGroupFromPragmas } from "./docblock";
 
@@ -28,16 +30,9 @@ export const resolveRecursiveTestName = (
 
 export const formatTestNameAsFileName = (
   testPath: string,
-  testName?: string,
+  testName: string,
   suffix = ""
 ) => {
-  let outputName = path.parse(testPath).name;
-  if (testName) {
-    outputName = (
-      outputName +
-      "-" +
-      testName.replace(/[^a-zA-Z0-9-]/gi, "-")
-    ).substring(0, 50);
-  }
+  const outputName = kebabCase(`${path.basename(testPath)}-${testName}`);
   return outputName + suffix;
 };

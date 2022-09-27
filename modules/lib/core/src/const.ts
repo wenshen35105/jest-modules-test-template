@@ -11,3 +11,5 @@ export const ENV_JEST_VSC_RUN = "JEST_VSC_RUN";
 export const MODULE_SRC_DIR = "src";
 export const MODULE_OUT_DIR = "output";
 export const MODULE_ASSET_DIR = "asset";
+
+export const TEST_FAILED_DIR = "__failedTestScreenshot__";

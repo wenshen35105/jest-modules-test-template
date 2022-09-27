@@ -799,6 +799,7 @@ __metadata:
     "@lib/selenium": "workspace:^"
     "@lib/types": "workspace:^"
     "@types/jest": ^29.0.3
+    "@types/lodash": ^4.14.185
     "@types/node": ^16.0.0
     "@types/selenium-webdriver": ^4.1.5
     htm: ^3.1.1
@@ -808,6 +809,7 @@ __metadata:
     jest-environment-node: ^29.0.3
     jest-runner: ^29.0.3
     jest-watcher: ^29.0.3
+    lodash: ^4.17.21
     parse-duration: ^1.0.2
     preact: ^10.11.0
     preact-render-to-string: ^5.2.4
@@ -858,6 +860,7 @@ __metadata:
     chromedriver: ^105.0.1
     geckodriver: ^3.0.2
     ms-chromium-edge-driver: ^0.5.1
+    parse-duration: ^1.0.2
     selenium-webdriver: ^4.4.0
   languageName: unknown
   linkType: soft
@@ -1146,6 +1149,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: e009a2bfb50e90ca9b7c6e8f648f8464067271fd99116f881073fa6fa76dc8d0133181dd65e6614d5fb1220d671d67b0124aef7d97dc02d7e342ab143a47779d
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4.14.185":
+  version: 4.14.185
+  resolution: "@types/lodash@npm:4.14.185"
+  checksum: f81d13da5ecab110ca9c5c7cc2bedc3c9802a6acf668576aecd1b8f4b134ed81d06c15f1e600fb08f05975098280a0d97d30cddfc2cb39ec1c6b56e971ca53b3
   languageName: node
   linkType: hard
 

@@ -5,7 +5,7 @@
 
 import { By } from "selenium-webdriver";
 
-describe("UI sample", () => {
+describe("UI sample - 2", () => {
   beforeEach(async () => {
     await webDriver.get("https://youtube.ca");
   });

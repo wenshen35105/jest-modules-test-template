@@ -15,7 +15,7 @@
     "chromedriver": "^105.0.1",
     "geckodriver": "^3.0.2",
     "ms-chromium-edge-driver": "^0.5.1",
-    "selenium-webdriver": "^4.4.0",
-    "parse-duration": "^1.0.2"
+    "parse-duration": "^1.0.2",
+    "selenium-webdriver": "^4.4.0"
   }
 }

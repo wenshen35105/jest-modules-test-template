@@ -16,12 +16,11 @@ import { buildWebDriver, setupWebDriver } from "@lib/selenium";
 import {
   getTestModuleInfoForTest,
   getTestInfoForTest,
-  resolveRecursiveTestName,
   formatTestNameAsFileName,
-  resolveModuleRelativePath,
+  resolveOutPathFromTestPath,
 } from "../utils";
-import { MODULE_SRC_DIR, MODULE_OUT_DIR } from "../const";
 import { log } from "@lib/misc";
+import { TEST_FAILED_DIR } from "../const";
 
 /**
  * https://jestjs.io/docs/configuration#testenvironment-string
@@ -80,20 +79,15 @@ class CoreEnvironment extends NodeEnvironment {
   async webDriverTakeScreenshot(test: Circus.TestEntry) {
     if (!this.global.webDriver) return Promise.reject("WebDriver not found");
 
-    const testName = resolveRecursiveTestName(test);
     try {
       const screenshotPath = path.resolve(
-        resolveModuleRelativePath(
+        resolveOutPathFromTestPath(
           this.global.__TEST_INFO.testPath,
-          {
-            src: MODULE_SRC_DIR,
-            dest: MODULE_OUT_DIR,
-          },
-          "_failedTestScreenshot"
+          TEST_FAILED_DIR
         ),
         formatTestNameAsFileName(
           this.global.__TEST_INFO.testPath,
-          testName,
+          test.name,
           ".png"
         )
       );
@@ -107,7 +101,7 @@ class CoreEnvironment extends NodeEnvironment {
       });
     } catch (e) {
       log.error(
-        `Failed to save screenshot for '${this.global.__TEST_INFO.testPath}' - '${testName}'`
+        `Failed to save screenshot for '${this.global.__TEST_INFO.testPath}' - '${test.name}'`
       );
     }
   }
