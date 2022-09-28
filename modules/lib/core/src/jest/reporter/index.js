@@ -66,7 +66,7 @@ class CoreReporter extends BaseReporter {
 
       for (const group of testGroups) {
         if (!this.groupTestData[group]) {
-          this.groupTestData[group] = { name: group, tests: [] };
+          this.groupTestData[group] = { name: `@group/${group}`, tests: [] };
         }
         this.groupTestData[group].tests.push(testData);
       }
