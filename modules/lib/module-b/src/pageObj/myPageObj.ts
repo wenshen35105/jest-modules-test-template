@@ -14,7 +14,8 @@ export class MyPageObj implements PageObjBase {
   };
   webDriver!: WebDriver;
 
-  find(webDriver: WebDriver): Promise<PageObjBase> {
+  async find(webDriver: WebDriver): Promise<PageObjBase> {
+    await webDriver.findElement(By.xpath(""));
     throw new Error("Method not implemented.");
   }
 }

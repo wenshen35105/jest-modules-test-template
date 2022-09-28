@@ -130,12 +130,14 @@ class CoreEnvironment extends NodeEnvironment {
 
   async quitWebDriver(): Promise<void> {
     try {
-      await this.global?.webDriver?.quit();
+      if (this.global?.webDriver?.quit) {
+        await this.global?.webDriver?.quit();
+        log.info("quit webDriver done");
+      }
       Object.defineProperty(this.global, "webDriver", {});
       process.removeListener("exit", this.webDriverExitListener.bind(this));
       process.removeListener("SIGINT", this.webDriverExitListener.bind(this));
       process.removeListener("SIGTERM", this.webDriverExitListener.bind(this));
-      log.info("quit webDriver done");
     } catch (e) {
       log.error("Failed to quit webDriver");
     }

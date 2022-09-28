@@ -1,28 +1,50 @@
-.core--card {
-  min-height: 15rem;
-  padding: 1.5rem 2rem;
-}
-.core--card-content {
-  padding: 2.5rem 2rem;
-  background: #e5e5e5;
-  color: #000;
+.bx--tag-group {
+  background-color: rgb(50, 111, 223) !important;
+  color: white !important;
 }
 
-.core--card-title {
-  padding-bottom: 15px;
-  text-transform: capitalize;
+.bx--tag-passed {
+  background-color: #2ecc71;
+  color: white;
 }
 
-.core--card-data-wrapper {
-  padding-bottom: 10px;
+.rate-pass {
+  color: #2ecc71 !important;
 }
 
-.core--card-data-title {
-  font-size: 1rem;
+.bx--tag-failed {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.rate-failed {
+  color: #e74c3c !important;
+}
+
+.bx--tag-skipped {
+  background-color: #34495e;
+  color: white;
+}
+
+.bx--tag-pending {
+  background-color: #9b59b6;
+  color: white;
+}
+
+.bx--tag-todo {
+  background-color: #95a5a6;
+  color: black;
+}
+
+.bx--tag-disabled {
+  background-color: #bdc3c7;
+  color: black;
+}
+
+.bold {
   font-weight: bold;
 }
 
-.core--card-data-data {
-  font-size: 0.8rem;
-  text-align: right;
+.margin-below {
+  margin-bottom: 10px;
 }

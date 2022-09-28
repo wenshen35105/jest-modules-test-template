@@ -25,8 +25,8 @@ class CoreReporter extends BaseReporter {
     this.globalConfig = globalConfig;
     this.context = context;
 
-    this.catalogStat = [];
-    this.testData = [];
+    this.groupTestData = {};
+    this.testsList = [];
 
     if (
       !this.context["outputDir"] ||
@@ -34,68 +34,65 @@ class CoreReporter extends BaseReporter {
     ) {
       throw new Error("require report option: 'outputDir' doesnt exist");
     }
+    this.outputDir = this.context["outputDir"];
+    this.groupReportOutputDir = path.resolve(this.outputDir, "groups-report");
   }
 
   onRunComplete(_testContexts, aggregatedResult) {
-    this.catalogStat.push({
-      type: "all",
-      test: {
-        total: aggregatedResult.numTotalTests,
-        failed: aggregatedResult.numFailedTests,
-        passed: aggregatedResult.numPassedTests,
-        pending: aggregatedResult.numPendingTests,
-      },
-    });
+    const allTestData = { name: "All", tests: [] };
+    for (const test of aggregatedResult.testResults) {
+      const testGroups = getGroupFromPragmas(test.testFilePath);
+      const testCases = [];
 
-    this.catalogStat.push({
-      type: "suite",
-      test: {
-        total: aggregatedResult.numTotalTestSuites,
-        failed: aggregatedResult.numFailedTestSuites,
-        passed: aggregatedResult.numPassedTestSuites,
-        pending: aggregatedResult.numPendingTests,
-      },
-    });
+      for (const testCase of test.testResults) {
+        testCases.push({
+          name: testCase.title,
+          status: testCase.status,
+          duration: testCase.duration,
+          invocations: testCase.invocations,
+        });
+      }
 
-    const catalogGroupStat = {};
+      const testData = {
+        name: test?.testResults?.[0]?.ancestorTitles?.[0],
+        passing: test.numPassingTests,
+        failing: test.numFailingTests,
+        pending: test.numPendingTests,
+        todo: test.numTodoTests,
+        filepath: test.testFilePath,
+        groups: testGroups,
+        testCases,
+      };
 
-    aggregatedResult.testResults.forEach((suiteResult) => {
-      const belongingGroups = getGroupFromPragmas(suiteResult.testFilePath);
+      for (const group of testGroups) {
+        if (!this.groupTestData[group]) {
+          this.groupTestData[group] = { name: group, tests: [] };
+        }
+        this.groupTestData[group].tests.push(testData);
+      }
 
-      belongingGroups.forEach((belongingGroup) => {
-        catalogGroupStat[belongingGroup] = {
-          failed:
-            (catalogGroupStat[belongingGroup]?.failed || 0) +
-            suiteResult.numFailingTests,
-          passed:
-            (catalogGroupStat[belongingGroup]?.passed || 0) +
-            suiteResult.numPassingTests,
-          pending:
-            (catalogGroupStat[belongingGroup]?.pending || 0) +
-            suiteResult.numPendingTests,
-          total:
-            (catalogGroupStat[belongingGroup]?.total || 0) +
-            (suiteResult.numFailingTests +
-              suiteResult.numPassingTests +
-              suiteResult.numPendingTests),
-        };
-      });
-    });
+      allTestData.tests.push(testData);
+    }
 
-    Object.keys(catalogGroupStat).forEach((groupName) => {
-      this.catalogStat.push({
-        type: "group",
-        name: groupName,
-        test: catalogGroupStat[groupName],
-      });
-    });
-
-    const htmlString = genReportHTMLString(this.catalogStat);
+    // write overall report
     fs.writeFileSync(
-      path.resolve(this.context["outputDir"], "report.html"),
-      htmlString,
-      "utf-8"
+      path.resolve(this.outputDir, "report.html"),
+      genReportHTMLString(allTestData),
+      "utf8"
     );
+
+    // write groups report
+    if (!fs.existsSync(this.groupReportOutputDir)) {
+      fs.mkdirSync(this.groupReportOutputDir, { recursive: true });
+    }
+
+    Object.keys(this.groupTestData).forEach((group) => {
+      fs.writeFileSync(
+        path.resolve(this.groupReportOutputDir, `${group}.html`),
+        genReportHTMLString(this.groupTestData[group]),
+        "utf8"
+      );
+    });
   }
 }
 
