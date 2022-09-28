@@ -1,5 +1,6 @@
 import { jest } from "@jest/globals";
 import parseDuration from "parse-duration";
+import path from "path";
 import { TIMEOUT__TEST_DEFAULT } from "../const";
 import { getJestConfig } from "../config";
 import { log } from "@lib/misc";
@@ -30,7 +31,9 @@ globalThis.__TEST_INFO.groups.forEach((group) => {
 
 if (defaultTimeout !== timeout) {
   log.info(
-    `Test timeout is set to '${timeoutPlain}' for '${globalThis.__TEST_INFO.testPath}'`
+    `General timeout is set to '${timeoutPlain}' for '${path.basename(
+      globalThis.__TEST_INFO.testPath
+    )}'`
   );
 }
 jest.setTimeout(timeout);

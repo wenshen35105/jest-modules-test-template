@@ -16,12 +16,12 @@ import { buildWebDriver, setupWebDriver } from "@lib/selenium";
 import {
   getTestModuleInfoForTest,
   getTestInfoForTest,
-  resolveRecursiveTestName,
   formatTestNameAsFileName,
-  resolveModuleRelativePath,
+  resolveOutPathFromTestPath,
+  saveTestFailureToLog,
 } from "../utils";
-import { MODULE_SRC_DIR, MODULE_OUT_DIR } from "../const";
 import { log } from "@lib/misc";
+import { TEST_FAILED_SCREENSHOT_DIR } from "../const";
 
 /**
  * https://jestjs.io/docs/configuration#testenvironment-string
@@ -78,25 +78,29 @@ class CoreEnvironment extends NodeEnvironment {
   }
 
   async webDriverTakeScreenshot(test: Circus.TestEntry) {
-    if (!this.global.webDriver) return Promise.reject("WebDriver not found");
+    // return if this isn't a selenium test
+    if (!this.seleniumConfig) return;
 
-    const testName = resolveRecursiveTestName(test);
+    const screenshotPath = path.resolve(
+      resolveOutPathFromTestPath(
+        this.global.__TEST_INFO.testPath,
+        TEST_FAILED_SCREENSHOT_DIR
+      ),
+      formatTestNameAsFileName(
+        this.global.__TEST_INFO.testPath,
+        test.name,
+        ".png"
+      )
+    );
+
+    if (test.errors.length === 0) {
+      if (fs.existsSync(screenshotPath)) fs.rmSync(screenshotPath);
+      return;
+    }
+
+    log.info("Error noticed, ready to take a screenshot for the test");
+
     try {
-      const screenshotPath = path.resolve(
-        resolveModuleRelativePath(
-          this.global.__TEST_INFO.testPath,
-          {
-            src: MODULE_SRC_DIR,
-            dest: MODULE_OUT_DIR,
-          },
-          "_failedTestScreenshot"
-        ),
-        formatTestNameAsFileName(
-          this.global.__TEST_INFO.testPath,
-          testName,
-          ".png"
-        )
-      );
       const screenshotBuf64 = await this.global.webDriver.takeScreenshot();
       return new Promise<void>((resolve, reject) => {
         fs.writeFile(screenshotPath, screenshotBuf64, "base64", (err) => {
@@ -107,15 +111,33 @@ class CoreEnvironment extends NodeEnvironment {
       });
     } catch (e) {
       log.error(
-        `Failed to save screenshot for '${this.global.__TEST_INFO.testPath}' - '${testName}'`
+        `Failed to save screenshot for '${this.global.__TEST_INFO.testPath}' - '${test.name}'`
       );
     }
   }
 
+  webDriverExitListener(signal: NodeJS.Signals | number) {
+    if (!this.global?.webDriver?.quit) return;
+    log.info(`process exit - ${signal} received. quiting webdriver`);
+    this.quitWebDriver().catch((err) => {
+      log.error(
+        "'webDriverSignalListener' failed to quit webDriver",
+        signal,
+        err
+      );
+    });
+  }
+
   async quitWebDriver(): Promise<void> {
     try {
-      await this.global?.webDriver?.quit();
+      if (this.global?.webDriver?.quit) {
+        await this.global?.webDriver?.quit();
+        log.info("quit webDriver done");
+      }
       Object.defineProperty(this.global, "webDriver", {});
+      process.removeListener("exit", this.webDriverExitListener.bind(this));
+      process.removeListener("SIGINT", this.webDriverExitListener.bind(this));
+      process.removeListener("SIGTERM", this.webDriverExitListener.bind(this));
     } catch (e) {
       log.error("Failed to quit webDriver");
     }
@@ -124,6 +146,10 @@ class CoreEnvironment extends NodeEnvironment {
   async createWebDriver(): Promise<void> {
     if (!this.global.webDriver) {
       this.global.webDriver = await buildWebDriver(getConfig().selenium);
+      // lets remove webdriver if we cut off the test in flight
+      process.addListener("exit", this.webDriverExitListener.bind(this));
+      process.addListener("SIGINT", this.webDriverExitListener.bind(this));
+      process.addListener("SIGTERM", this.webDriverExitListener.bind(this));
       await setupWebDriver(getConfig().selenium, this.global.webDriver);
     }
   }
@@ -137,11 +163,10 @@ class CoreEnvironment extends NodeEnvironment {
     }
 
     if (event.name === "test_done") {
-      // webdriver take screenshot when erros detected
-      if (event.test.errors?.length && this.seleniumConfig) {
-        log.info("Error noticed, ready to take a screenshot for the test");
-        await this.webDriverTakeScreenshot(event.test);
-      }
+      // check if need to save file log
+      await saveTestFailureToLog(this.global.__TEST_INFO.testPath, event.test);
+      // check if need to save webdriver screenshot
+      await this.webDriverTakeScreenshot(event.test);
       // quit webdriver for "test" scope
       if (this.seleniumConfig?.webDriverCycle === "test") {
         await this.quitWebDriver();

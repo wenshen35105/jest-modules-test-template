@@ -83,3 +83,14 @@ export const resolveModuleRelativePath = (
 
   return outFolderPath;
 };
+
+export const resolveOutPathFromTestPath = (
+  testPath: string,
+  ...subDir: string[]
+) => {
+  return resolveModuleRelativePath(
+    testPath,
+    { src: MODULE_SRC_DIR, dest: MODULE_OUT_DIR },
+    ...subDir
+  );
+};

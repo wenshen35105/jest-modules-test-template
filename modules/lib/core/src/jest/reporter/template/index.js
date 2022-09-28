@@ -2,37 +2,21 @@ const { html, Component } = require("htm/preact");
 const reactToString = require("preact-render-to-string");
 const fs = require("fs");
 const path = require("path");
-const Card = require("./Card");
-
-// TODO
+const TestTable = require("./TestTable");
 class Report extends Component {
   render(props) {
-    return html`<div class="bx--row">
-      ${props.cards.map(
-        (card) =>
-          html`<${Card}
-            name="${card.name}"
-            total="${card.total}"
-            passed="${card.passed}"
-            failed="${card.failed}"
-            pending="${card.pending}"
-          />`
-      )}
+    const { name, tests } = props;
+    return html`<div>
+      <h1>${name}</h1>
+      <${TestTable} tests="${tests}" />
+      <div></div>
     </div>`;
   }
 }
 
-const genReportHTMLString = (catalogStat) => {
-  // decompose card data
-  const cardData = catalogStat.map((stat) => ({
-    name: stat.name ? `@${stat.type}/${stat.name}` : stat.type,
-    failed: stat.test.failed,
-    passed: stat.test.passed,
-    total: stat.test.total,
-    pending: stat.test.pending,
-  }));
+const genReportHTMLString = ({ name, tests }) => {
   const reportBody = reactToString(
-    html`<${Report} cards="${cardData}"></${Report}>`
+    html`<${Report} name="${name}" tests="${tests}" />`
   );
 
   // load css

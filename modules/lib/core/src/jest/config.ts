@@ -18,9 +18,9 @@ export const getConfig = (moduleDir: string): Config => {
   const isVscRun = process.env[ENV_JEST_VSC_RUN] !== undefined;
 
   const config: Config = {
+    // cache: true,
     rootDir,
     roots,
-    cache: false,
     verbose: isVscRun,
     maxConcurrency: jestConfig.maxConcurrency,
     testEnvironment: "<rootDir>/lib/core/src/jest/environment",
